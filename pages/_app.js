@@ -12,6 +12,7 @@ const store = configureAppStore({
     components: {
         componentsState: { test: 'test1' },
     },
+    todos: {}
 })
 
 const theme = themeFactory()
