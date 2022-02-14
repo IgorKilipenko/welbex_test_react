@@ -3,9 +3,6 @@ const styleUtils = {
         height: '100%',
         width: '100%',
     },
-    bp: {
-        median : `@media (min-width: 768px)`
-    },
     absoluteCenter: { 
         position: 'absolute',
         top: '50%',
