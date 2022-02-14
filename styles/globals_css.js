@@ -12,6 +12,12 @@ const Globals_css = {
     },
     a: { color: 'inherit', textDecoration: 'none' },
     '*': { boxSizing: 'border-box' },
+    '*, *::before, *::after': {
+        border: 'none',
+    },
+    button: {
+        cursor: 'pointer',
+    },
 }
 
 export { Globals_css as default }
