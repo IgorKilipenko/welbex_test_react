@@ -2,6 +2,7 @@ import { ToggleButton } from '../buttons'
 import { memoStylesFactory, styleUtils } from '@Styles'
 import { useTheme } from '@emotion/react'
 import { WrappedImage as Image } from '@Components/view'
+import LogoImage from './logo_image'
 
 const stylesFactory = memoStylesFactory((theme) => {
     const { bgColor, textColor, zIndex, bp } = theme
@@ -16,22 +17,24 @@ const stylesFactory = memoStylesFactory((theme) => {
             top: 0,
             left: 0,
             width: '100%',
+            minHeight: `${height / 2}rem`,
             height: `${height / 2}rem`,
             color: textColor(),
             zIndex: zIndex.overlay + 1,
             [bp.median]: {
+                minHeight: `${height}rem`,
                 height: `${height}rem`,
             },
         },
         get logo() {
-            const width = 20
+            const width = 25
             return {
                 position: 'relative',
-                width: `${width / 2}rem`,
+                minWidth: `${width / 2}rem`,
                 height: '100%',
                 backgroundColor: bgColor(),
                 [bp.median]: {
-                    width: `${width}rem`,
+                    minWidth: `${width}rem`,
                 },
                 '&::after': {
                     content: '""',
@@ -48,6 +51,9 @@ const stylesFactory = memoStylesFactory((theme) => {
             position: 'relative',
             padding: '1rem',
             ...styleUtils.fullSize,
+            [bp.median]: {
+                padding: '3rem',
+            },
         },
     }
 })
@@ -58,9 +64,9 @@ const AppBar = () => {
     return (
         <div css={styles.container}>
             <div css={styles.logo}>
-                <Image
+                <LogoImage
                     css={styles.imgContainer}
-                    src={'/images/logo.svg'}
+                    src={'/images/logo2.svg'}
                     layout={'fill'}
                     alt="logo"
                     priority={true}
