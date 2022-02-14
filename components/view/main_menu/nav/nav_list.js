@@ -15,7 +15,6 @@ const NavList = ({ reverse = true, controls }) => {
                         <NavItem
                             key={i}
                             controls={controls}
-                            //isOpened={isOpened}
                             itemIndex={reverse ? arr.length - i - 1 : i}
                             reverse={reverse}
                             number={`${(i + 1).toString().padStart(2, '0')}`}
@@ -24,32 +23,6 @@ const NavList = ({ reverse = true, controls }) => {
                     )
                 })}
             </ul>
-            {/*<div className="w-full flex m:hidden justify-between js-menu-up">
-                <a
-                    href="https://astoncm.com/contact"
-                    className="font-medium uppercase group inline-flex rounded-full overflow-hidden relative bg-red text-white mt-30 w-[14.8rem] text-f17">
-                    <div className="w-full flex items-center text-center justify-center transition-transform duration-1000 ease-out-expo transform translate-y-[0%] group-hover:translate-y-[-100%] px-0 h-[4.8rem]">
-                        Contact us
-                    </div>
-                    <div
-                        className="absolute top-0 left-0 w-full h-full flex items-center text-center justify-center transition-transform duration-1000 ease-out-expo transform translate-y-[100%] group-hover:translate-y-[0%]"
-                        aria-hidden="true">
-                        Contact us
-                    </div>
-                </a>
-                <a
-                    href="https://portal.astoncm.com"
-                    className="font-medium uppercase group inline-flex rounded-full overflow-hidden relative bg-green-light text-green mt-30 w-[14.8rem] text-f17">
-                    <div className="w-full flex items-center text-center justify-center transition-transform duration-1000 ease-out-expo transform translate-y-[0%] group-hover:translate-y-[-100%] px-0 h-[4.8rem]">
-                        Login
-                    </div>
-                    <div
-                        className="absolute top-0 left-0 w-full h-full flex items-center text-center justify-center transition-transform duration-1000 ease-out-expo transform translate-y-[100%] group-hover:translate-y-[0%]"
-                        aria-hidden="true">
-                        Login
-                    </div>
-                </a>{' '}
-            </div>*/}
             <div className="w-full m:w-auto m:flex">
                 <div className="m:mr-50 my-40 m:my-0 py-40 m:py-0 border-t border-b m:border-0 border-white border-opacity-25 js-menu-up">
                     <div className="text-f15 uppercase mb-10 font-semibold">
