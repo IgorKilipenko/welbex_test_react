@@ -1,3 +1,3 @@
 import MenuOverlay from './menu'
 
-export { MenuOverlay }
+export default MenuOverlay
