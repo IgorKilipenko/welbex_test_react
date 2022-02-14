@@ -1,7 +1,7 @@
-import { AppBar } from '@Components/view'
 import { useTheme } from '@emotion/react'
 import { memoStylesFactory, styleUtils } from '@Styles'
 import Head from 'next/head'
+import HomeComponent from '@Components/view/home'
 
 const stylesFactory = memoStylesFactory((theme) => {
     const { bp } = theme
@@ -9,23 +9,14 @@ const stylesFactory = memoStylesFactory((theme) => {
         container: {
             position: 'relative',
             display: 'flex',
+            flexDirection: 'row',
+            justifyContent : 'center',
             ...styleUtils.fullSize,
-        },
-        contentContainer: {
-            position: 'absolute',
-            ...styleUtils.fullSize,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'flex-end',
-            padding: '3rem',
-            [bp.median]: {
-                padding: '8rem',
-            },
         },
     }
 })
 
-const Home = (/*props*/) => {
+const HomePage = (/*props*/) => {
     const theme = useTheme()
     const styles = stylesFactory(theme)
     return (
@@ -35,10 +26,11 @@ const Home = (/*props*/) => {
             </Head>
 
             <div css={styles.container}>
-                
+                <HomeComponent />
+                <div></div>
             </div>
         </>
     )
 }
 
-export { Home as default }
+export { HomePage as default }

@@ -3,7 +3,7 @@ import { useTheme } from '@emotion/react'
 import { memoStylesFactory, styleUtils } from '@Styles'
 
 const stylesFactory = memoStylesFactory((/*theme*/) => {
-    const {absoluteCenter, fullSize} = styleUtils
+    const { fullSize } = styleUtils
     return {
         container: {
             position: 'fixed',
@@ -16,7 +16,8 @@ const stylesFactory = memoStylesFactory((/*theme*/) => {
         page: {
             position: 'relative',
             ...fullSize,
-            backgroundColor:'red'
+            overflowY: 'auto',
+            overflowX: 'hidden',
         },
     }
 })
