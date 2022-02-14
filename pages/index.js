@@ -4,6 +4,7 @@ import { memoStylesFactory, styleUtils } from '@Styles'
 import Head from 'next/head'
 
 const stylesFactory = memoStylesFactory((theme) => {
+    const { bp } = theme
     return {
         container: {
             position: 'relative',
@@ -17,7 +18,7 @@ const stylesFactory = memoStylesFactory((theme) => {
             flexDirection: 'column',
             alignItems: 'flex-end',
             padding: '3rem',
-            [styleUtils.bp.median.cssTag]: {
+            [bp.median]: {
                 padding: '8rem',
             },
         },
@@ -34,7 +35,7 @@ const Home = (/*props*/) => {
             </Head>
 
             <div css={styles.container}>
-                <AppBar />
+                
             </div>
         </>
     )

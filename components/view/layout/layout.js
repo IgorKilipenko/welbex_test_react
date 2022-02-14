@@ -1,24 +1,36 @@
-import { MenuOverlay } from '../main_menu'
-import { styleUtils } from '@Styles'
+import { AppBar, MenuOverlay } from '@Components/view'
+import { useTheme } from '@emotion/react'
+import { memoStylesFactory, styleUtils } from '@Styles'
 
-const styles = {
-
+const stylesFactory = memoStylesFactory((/*theme*/) => {
+    const {absoluteCenter, fullSize} = styleUtils
+    return {
         container: {
             position: 'fixed',
-            //...center({ mode: 'flexCenter' }),
-            ...styleUtils.fullSize,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'flex-start',
+            ...fullSize,
             overscrollBehavior: 'none',
         },
-        page: {},
+        page: {
+            position: 'relative',
+            ...fullSize,
+            backgroundColor:'red'
+        },
     }
+})
 
 const Layout = (props) => {
     const { children } = props
+    const theme = useTheme()
+    const styles = stylesFactory(theme)
     console.log({ Layout_Props: props })
     return (
         <div css={styles.container}>
+            <AppBar />
             <MenuOverlay />
-            {children}
+            <main css={styles.page}>{children}</main>
         </div>
     )
 }

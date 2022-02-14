@@ -6,8 +6,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { actions as storeActions } from '@Components/store'
 
 const stylesFactory = (theme) => {
+    const { absoluteCenter, bgColorLight, bp } = theme
     const width = 13
-    const { absoluteCenter, bgColor, bgColorLight } = theme
+    
     return {
         button: {
             position: 'relative',
@@ -19,7 +20,7 @@ const stylesFactory = (theme) => {
             justifyContent: 'center',
             width: `${width / 2}rem`,
             height: '100%',
-            '@media (min-width: 769px)': {
+            [bp.median]: {
                 width: `${width}rem`,
             },
         },
@@ -31,7 +32,6 @@ const stylesFactory = (theme) => {
                 width: '7rem',
             },
         },
-        //bgColor,
     }
 }
 
