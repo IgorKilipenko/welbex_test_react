@@ -1,9 +1,10 @@
 import { Global, ThemeProvider } from '@emotion/react'
-import { global_css } from '@Styles'
+import { global_css as globalStylesFactory } from '@Styles'
 import { Provider } from 'react-redux'
 import configureAppStore from '../components/store'
 import { Layout } from '../components/view'
-import theme from '@Components/theme'
+import themeFactory from '@Components/theme'
+import { useMemo } from 'react'
 
 const store = configureAppStore({
     theme: { darkTheme: false },
@@ -12,10 +13,15 @@ const store = configureAppStore({
     },
 })
 
+const theme = themeFactory()
+
 const App = ({ Component, pageProps }) => {
+    const styles = useMemo(() => {
+        return globalStylesFactory(theme)
+    }, [])
     return (
         <Provider store={store}>
-            <Global styles={global_css} />
+            <Global styles={styles} />
             <ThemeProvider theme={theme}>
                 <Layout>
                     <Component {...pageProps} />
