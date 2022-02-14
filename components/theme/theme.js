@@ -8,6 +8,7 @@ const theme = () => {
             `rgba(155, 227, 191, ${opacity})`,
         bgColorDark: (opacity = bgOpacity) => `rgba(12, 68, 50, ${opacity})`,
         textColor: (opacity = textOpacity) => `rgba(255, 255, 255, ${opacity})`,
+        textColorDark: (opacity = textOpacity) => `rgba(0, 0, 0, ${opacity})`,
         zIndex: {
             overlay: 999,
         },
