@@ -1,10 +1,9 @@
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import { useTheme } from '@emotion/react'
 import { motion } from 'framer-motion'
 import Lines from './lines'
 import { useDispatch, useSelector } from 'react-redux'
 import { actions as storeActions } from '@Components/store'
-
 
 const stylesFactory = (theme) => {
     const width = 13
@@ -12,10 +11,9 @@ const stylesFactory = (theme) => {
     return {
         button: {
             position: 'relative',
-            pointerEventsAuto: 'none',
+            pointerEvents: 'auto',
             zIndex: 2,
-            //...menuToggle,
-            backgroundColor: bgColorLight,
+            backgroundColor: bgColorLight(),
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -40,21 +38,12 @@ const stylesFactory = (theme) => {
 const Button = (/*props*/) => {
     const dispatch = useDispatch()
     const { isOpened } = useSelector((state) => state.components.mainMenu)
-    const lastClickTime = useRef({})
     const [isHoverd, setHovered] = useState(false)
     const theme = useTheme()
 
-    const {
-        button: buttonStyles,
-        lines: linesStyles,
-    } = stylesFactory(theme)
+    const { button: buttonStyles, lines: linesStyles } = stylesFactory(theme)
 
     const handleClick = () => {
-        const time = Date.now()
-        if (time - (lastClickTime.current.forIsOpened || 0) < 300) {
-            return
-        }
-        lastClickTime.current.forIsOpened = time
         dispatch(
             storeActions.components.setMainMenuState({
                 isOpened: isOpened ? false : true,
@@ -63,11 +52,6 @@ const Button = (/*props*/) => {
     }
 
     const handleHover = (hovered) => {
-        const time = Date.now()
-        if (time - (lastClickTime.current.forIsHovered || 0) < 300) {
-            return
-        }
-        lastClickTime.current.forIsHovered = time
         setHovered(hovered)
     }
 
@@ -76,8 +60,6 @@ const Button = (/*props*/) => {
             setHovered(false)
         }
     }
-
-
 
     return (
         <motion.button
@@ -88,9 +70,8 @@ const Button = (/*props*/) => {
             onHoverStart={() => handleHover(!isOpened && true)}
             onHoverEnd={() => handleHover(false)}
             onClick={(e) => handleClick(e)}
-            onAnimationComplete={(definition) => handleAnimateion(definition)}
-            >
-            <Lines css={linesStyles}/>
+            onAnimationComplete={(definition) => handleAnimateion(definition)}>
+            <Lines css={linesStyles} />
         </motion.button>
     )
 }

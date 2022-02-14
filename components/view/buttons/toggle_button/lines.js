@@ -32,8 +32,6 @@ const Path = ({ color, ...props }) => {
             x2={size.width / 2}
             y2="0"
             origin={[0, 0, 0]}
-            //strokeWidth="1.5"
-            //vectorEffect="non-scaling-stroke"
             stroke={color}
             {...props}
         />
@@ -54,7 +52,6 @@ const Lines = (props) => {
             `Mode must be in values ['top', 'bottom', 'center'], mode = ${mode}`
         )
         return {
-            //d: 'M 2 9.423 L 20 9.423',
             css: styles.svgLine,
             get variants() {
                 return {
