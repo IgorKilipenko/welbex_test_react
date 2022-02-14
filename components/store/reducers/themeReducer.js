@@ -21,7 +21,4 @@ const themeSlice = createSlice({
     },
 })
 
-/*export default themeSlice.reducer
-export const { setDarkTheme } = themeSlice.actions*/
-
 export default themeSlice
