@@ -1,7 +1,7 @@
 import { ToggleButton } from '../buttons'
-import { memoStylesFactory } from '@Styles'
+import { memoStylesFactory, styleUtils } from '@Styles'
 import { useTheme } from '@emotion/react'
-import Image from 'next/image'
+import { WrappedImage as Image } from '@Components/view'
 
 const stylesFactory = memoStylesFactory((theme) => {
     const { bgColor, textColor } = theme
@@ -10,11 +10,11 @@ const stylesFactory = memoStylesFactory((theme) => {
             position: 'relative',
             display: 'flex',
             flexDirection: 'row',
-            alignItems:'flex-start',
+            alignItems: 'flex-start',
             top: 0,
             left: 0,
             width: '100%',
-            height: '10rem',
+            height: '13rem',
             //backgroundColor: bgColor(),
             color: textColor(),
             '&::after': {
@@ -27,15 +27,17 @@ const stylesFactory = memoStylesFactory((theme) => {
                 backgroundColor: textColor(0.25),
             },
         },
-        logo:{
+        logo: {
             position: 'relative',
-            width:'20rem',
-            height:'100%',
+            width: '20rem',
+            height: '100%',
             backgroundColor: bgColor(),
         },
-        img: {
-            //position: 'relative',
-        }
+        imgContainer: {
+            position: 'relative',
+            padding: '1rem',
+            ...styleUtils.fullSize,
+        },
     }
 })
 
@@ -44,7 +46,15 @@ const AppBar = () => {
     const styles = stylesFactory(theme)
     return (
         <div css={styles.container}>
-            <div css={styles.logo}><Image css={styles.img} src={'/images/logo.svg'} layout={'fill'} /></div>
+            <div css={styles.logo}>
+                <Image
+                    css={styles.imgContainer}
+                    src={'/images/logo.svg'}
+                    layout={'fill'}
+                    alt="logo"
+                    priority={true}
+                />
+            </div>
             <ToggleButton />
         </div>
     )
