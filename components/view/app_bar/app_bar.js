@@ -1,7 +1,6 @@
 import { ToggleButton } from '../buttons'
 import { memoStylesFactory, styleUtils } from '@Styles'
 import { useTheme } from '@emotion/react'
-import { WrappedImage as Image } from '@Components/view'
 import LogoImage from './logo_image'
 
 const stylesFactory = memoStylesFactory((theme) => {
@@ -66,10 +65,7 @@ const AppBar = () => {
             <div css={styles.logo}>
                 <LogoImage
                     css={styles.imgContainer}
-                    src={'/images/logo2.svg'}
-                    layout={'fill'}
                     alt="logo"
-                    priority={true}
                 />
             </div>
             <ToggleButton />

@@ -1,6 +1,13 @@
 import { useTheme } from '@emotion/react'
 import { memoStylesFactory, styleUtils } from '@Styles'
 
+const cssToArray = (css) => {
+    if (css == null || Array.isArray(css)) {
+        return css == null ? [] : css
+    }
+    return [css]
+}
+
 const stylesFactory = memoStylesFactory((theme) => {
     const { fullSize } = styleUtils
     const { textColor } = theme
@@ -19,11 +26,13 @@ const stylesFactory = memoStylesFactory((theme) => {
     }
 })
 
-const LogoImage = ({ stroke, css, ...resetProps }) => {
+const LogoImage = ({ stroke, css: overrideCss, ...resetProps }) => {
     const theme = useTheme()
     const styles = stylesFactory(theme)
     return (
-        <div css={[styles.container, css]} {...resetProps}>
+        <div
+            css={[...cssToArray(styles.container), ...cssToArray(overrideCss)]}
+            {...resetProps}>
             <svg css={[styles.svg, stroke]} viewBox="0 0 56 64">
                 <g>
                     <path d="M16,33h16   c6.6,0,12-5.4,12-12v-8c0-6.6-5.4-12-12-12H19H9L1,56h12L16,33z" />
