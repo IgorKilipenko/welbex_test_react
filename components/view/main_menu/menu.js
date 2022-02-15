@@ -1,5 +1,5 @@
 import { motion, useAnimation } from 'framer-motion'
-import { useMainMenuState } from '@Components/store/reducers/componentsReducer'
+import { useMainMenuState } from '@Store'
 import { useTheme } from '@emotion/react'
 import { memoStylesFactory, styleUtils } from '@Styles'
 import { useEffect, useCallback, useRef } from 'react'

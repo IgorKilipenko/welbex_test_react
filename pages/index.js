@@ -2,7 +2,7 @@ import { useTheme } from '@emotion/react'
 import { memoStylesFactory, styleUtils } from '@Styles'
 import Head from 'next/head'
 import HomeComponent from '@Components/view/home'
-import { updateTodoList } from '@Components/store/reducers'
+import { updateTodoList } from '@Store/'
 import { useCallback, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
