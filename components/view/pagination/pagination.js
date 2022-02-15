@@ -9,6 +9,15 @@ const splitSymbol = paginationSplitSymbol
 const stylesFactory = memoStylesFactory((theme) => {
     const { textColorDark, bp } = theme
     const height = 3
+    const hover =(backgroundColor) => {
+        return {
+        '@media (hover: hover) and (pointer: fine)': {
+            '&:hover': {
+                backgroundColor: backgroundColor,
+                cursor: 'pointer',
+            },
+        },
+    }}
     return {
         paginationContainer: {
             display: 'flex',
@@ -34,10 +43,7 @@ const stylesFactory = memoStylesFactory((theme) => {
                     fontSize: `${height / 1.5}rem`,
                 }
             },
-            '&:hover': {
-                backgroundColor: textColorDark(0.05),
-                cursor: 'pointer',
-            },
+            ...hover(textColorDark(0.05))
         },
         spliеter: {},
         arrow: {
@@ -58,7 +64,10 @@ const stylesFactory = memoStylesFactory((theme) => {
         rightArrow: {
             transform: 'rotate(45deg)',
         },
-        selected: {},
+        selected: {
+            backgroundColor: textColorDark(0.25),
+            ...hover(textColorDark(0.25))
+        },
         disabled: {},
     }
 })
@@ -76,7 +85,7 @@ const Pagination = (props) => {
         css,
     } = props
 
-    const paginationRange = usePagination({
+    const { range: paginationRange, totalPageCount } = usePagination({
         currentPage,
         totalCount,
         siblingCount,
@@ -84,15 +93,15 @@ const Pagination = (props) => {
     })
 
     if (currentPage === 0 || paginationRange.length < 2) {
-        return <di>NULLLLLLLLLLL</di>
+        return <div></div>
     }
 
     const onNext = () => {
-        onPageChange(currentPage + 1)
+        onPageChange(Math.min(totalPageCount, currentPage + 1))
     }
 
     const onPrevious = () => {
-        onPageChange(currentPage - 1)
+        onPageChange(Math.max(1, currentPage - 1))
     }
 
     let lastPage = paginationRange[paginationRange.length - 1]
@@ -109,7 +118,7 @@ const Pagination = (props) => {
                         <li
                             key={`${pageNumber}_${i}`}
                             css={[styles.paginationItem, styles.spliеter]}>
-                            &#8230;
+                            {splitSymbol}
                         </li>
                     )
                 }
