@@ -1,8 +1,21 @@
-import { createAsyncThunk, createSlice, useSelector } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { useSelector } from 'react-redux'
+
+const prepreData = (data) => {
+    console.assert(data != null && (Array.isArray(data) || typeof data === 'object'), 'Data structure must be an array and not null')
+    data = Array.isArray(data) ? data : [data]
+    data = data.reduce((res, item, i) => {
+        const {id = i, ...rest} = item
+        res[id] = {...rest}
+        return res
+    }, {})
+    return data
+}
 
 export const updateTodoList = createAsyncThunk(
     'todos/update',
     async ({ id = '' }, { rejectWithValue }) => {
+
         try {
             const response = await fetch(
                 `https://jsonplaceholder.typicode.com/todos/${id}`,
@@ -13,7 +26,10 @@ export const updateTodoList = createAsyncThunk(
                     },
                 }
             )
-            const data = await response.json()
+            let data = await response.json()
+            data = prepreData(data)
+            
+            console.log({data})
             return data
         } catch (err) {
             let error = err
@@ -39,7 +55,7 @@ const todoSlice = createSlice({
         builder.addCase(updateTodoList.fulfilled, (state, { payload }) => {
             state.error = null
             state.loading = false
-            state.entities[payload.id] = payload
+            Object.assign(state.entities, { ...payload })
         })
         builder.addCase(updateTodoList.rejected, (state, action) => {
             state.loading = false
