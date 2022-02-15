@@ -59,8 +59,9 @@ const componentsSlice = createSlice({
 })
 
 /**
- * @param {('componentsState'|'appBar'|'mainMenu'|'mainComponent')} componentName
- * @return {object}
+ * 
+ * @param {'mainMenu'} prop? 
+ * @returns 
  */
 const useMainMenuState = (prop = null) =>
     useSelector((store) =>
