@@ -1,8 +1,8 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice, useSelector } from '@reduxjs/toolkit'
 
 export const updateTodoList = createAsyncThunk(
     'todos/update',
-    async ({id=''}, { rejectWithValue }) => {
+    async ({ id = '' }, { rejectWithValue }) => {
         try {
             const response = await fetch(
                 `https://jsonplaceholder.typicode.com/todos/${id}`,
@@ -55,4 +55,11 @@ const todoSlice = createSlice({
     },
 })
 
+/**
+ *
+ * @returns {{entities:object, loading:boolean, error:any?}}
+ */
+const useTodoState = () => useSelector((store) => store[todoSlice.name])
+
 export default todoSlice
+export { useTodoState }
