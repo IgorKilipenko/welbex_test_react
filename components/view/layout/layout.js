@@ -16,7 +16,7 @@ const stylesFactory = memoStylesFactory((/*theme*/) => {
         page: {
             position: 'relative',
             ...fullSize,
-            overflowY: 'auto',
+            overflowY: 'hidden',
             overflowX: 'hidden',
         },
     }
