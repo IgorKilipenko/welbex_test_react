@@ -20,12 +20,8 @@ const _prepare = (payload) => {
  * @type {{componentsState: object, appBar: object, mainMenu: object}}
  */
 const initialState = () => {
-    const size = { width: 0, heigth: 0 }
     return {
-        componentsState: {},
-        appBar: { ...{ size } },
-        mainMenu: { initial: false, ...{ size } },
-        mainComponent: { ...{ size } },
+        mainMenu: { isOpened: false },
         mainComponentMousePosition: {
             mousePosition: {
                 clientX: 0,
@@ -40,38 +36,10 @@ const componentsSlice = createSlice({
     name: 'components',
     initialState: initialState(),
     reducers: {
-        get setComponentsState() {
-            return {
-                reducer: (state, action) => {
-                    console.warn(
-                        'Not use this action (setComponentsState) in production, only for development'
-                    )
-                    Object.assign(state.componentsState, { ...action.payload })
-                },
-                prepare: (val) => _prepare(val),
-            }
-        },
-        get setAppBarState() {
-            return {
-                reducer: (state, action) => {
-                    Object.assign(state.appBar, { ...action.payload })
-                },
-                prepare: (val) => _prepare(val),
-            }
-        },
         get setMainMenuState() {
             return {
                 reducer: (state, action) => {
-                    //console.log('CURRENT_STATE', current(state))
                     Object.assign(state.mainMenu, { ...action.payload })
-                },
-                prepare: (val) => _prepare(val),
-            }
-        },
-        get setMainComponentState() {
-            return {
-                reducer: (state, action) => {
-                    Object.assign(state.mainComponent, { ...action.payload })
                 },
                 prepare: (val) => _prepare(val),
             }
@@ -94,11 +62,11 @@ const componentsSlice = createSlice({
  * @param {('componentsState'|'appBar'|'mainMenu'|'mainComponent')} componentName
  * @return {object}
  */
-const useComponentsSelector = (componentName, propName = null) =>
+const useMainMenuState = (prop = null) =>
     useSelector((store) =>
-        !propName
-            ? store[componentsSlice.name][componentName]
-            : store[componentsSlice.name][componentName][propName]
+        prop
+            ? store[componentsSlice.name].mainMenu[prop]
+            : store[componentsSlice.name].mainMenu
     )
 
 const useMainComponentMousePosition = () =>
@@ -108,4 +76,4 @@ const useMainComponentMousePosition = () =>
     )
 
 export default componentsSlice
-export { useComponentsSelector, useMainComponentMousePosition }
+export { useMainMenuState, useMainComponentMousePosition }

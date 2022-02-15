@@ -2,7 +2,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import { slicies } from './reducers'
 
 export {
-    useComponentsSelector,
+    useMainMenuState,
     useMainComponentMousePosition,
 } from './reducers'
 
