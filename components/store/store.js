@@ -1,10 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { slicies } from './reducers'
 
-export {
-    useMainMenuState,
-    useMainComponentMousePosition,
-} from './reducers'
+
 
 const themeSlice = slicies.theme
 const componentsSlice = slicies.components
