@@ -2,9 +2,33 @@ import { useMemo } from 'react'
 
 const splitSymbol = '...'
 
-const range = (start, end) => {
-    let length = end - start + 1
-    return Array.from({ length }, (_, i) => i + start)
+function culcPaginationRange(current, last, delta) {
+    const left = current - delta
+    const right = current + delta + 1
+    const range = []
+
+    for (let i = 1; i <= last; i++) {
+        if (i == 1 || i == last || (i >= left && i < right)) {
+            range.push(i)
+        }
+    }
+
+    return range.reduce(
+        (res, itemIndex) => {
+            const { dotsIndex, rangeWithDots } = res
+            if (dotsIndex > 0) {
+                if (itemIndex - dotsIndex === 2) {
+                    rangeWithDots.push(dotsIndex + 1)
+                } else if (itemIndex - dotsIndex !== 1) {
+                    rangeWithDots.push(splitSymbol)
+                }
+            }
+            rangeWithDots.push(itemIndex)
+            res.dotsIndex = itemIndex
+            return res
+        },
+        { rangeWithDots: [], dotsIndex: 0 }
+    ).rangeWithDots
 }
 
 const usePagination = ({
@@ -15,51 +39,12 @@ const usePagination = ({
 }) => {
     const paginationRange = useMemo(() => {
         const totalPageCount = Math.ceil(totalCount / pageSize)
-
-        const totalPageNumbers = siblingCount + 5
-
-        if (totalPageNumbers >= totalPageCount) {
-            return range(1, totalPageCount)
-        }
-
-        const leftSiblingIndex = Math.max(currentPage - siblingCount, 1)
-        const rightSiblingIndex = Math.min(
-            currentPage + siblingCount,
-            totalPageCount
+        const range = culcPaginationRange(
+            currentPage,
+            totalPageCount,
+            siblingCount
         )
-
-        const shouldShowLeftDots = leftSiblingIndex > 2
-        const shouldShowRightDots = rightSiblingIndex < totalPageCount - 2
-
-        const firstPageIndex = 1
-        const lastPageIndex = totalPageCount
-
-        if (!shouldShowLeftDots && shouldShowRightDots) {
-            let leftItemCount = 3 + 2 * siblingCount
-            let leftRange = range(1, leftItemCount)
-
-            return [...leftRange, splitSymbol, totalPageCount]
-        }
-
-        if (shouldShowLeftDots && !shouldShowRightDots) {
-            let rightItemCount = 3 + 2 * siblingCount
-            let rightRange = range(
-                totalPageCount - rightItemCount + 1,
-                totalPageCount
-            )
-            return [firstPageIndex, splitSymbol, ...rightRange]
-        }
-
-        if (shouldShowLeftDots && shouldShowRightDots) {
-            let middleRange = range(leftSiblingIndex, rightSiblingIndex)
-            return [
-                firstPageIndex,
-                splitSymbol,
-                ...middleRange,
-                splitSymbol,
-                lastPageIndex,
-            ]
-        }
+        return { range, totalPageCount }
     }, [totalCount, pageSize, siblingCount, currentPage])
 
     return paginationRange
