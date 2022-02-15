@@ -1,8 +1,8 @@
 import { motion, useAnimation } from 'framer-motion'
-import { useComponentsSelector } from '@Components/store/reducers/componentsReducer'
+import { useMainMenuState } from '@Components/store/reducers/componentsReducer'
 import { useTheme } from '@emotion/react'
 import { memoStylesFactory, styleUtils } from '@Styles'
-import { useEffect, useCallback } from 'react'
+import { useEffect, useCallback, useRef } from 'react'
 import NavContainer, { NavList } from './nav'
 import Footer from './footer'
 import variantKeys from './variant_keys'
@@ -30,8 +30,8 @@ const stylesFactory = memoStylesFactory((theme) => {
                 flexDirection: 'column',
                 justifyContent: 'flex-end',
                 ...styleUtils.fullSize,
-                paddingLeft: `${padding/2}rem`,
-                paddingRight: `${padding/2}rem`,
+                paddingLeft: `${padding / 2}rem`,
+                paddingRight: `${padding / 2}rem`,
                 [bp.median]: {
                     paddingLeft: `${padding}rem`,
                     paddingRight: `${padding}rem`,
@@ -68,19 +68,17 @@ const variants = {
             opacity: { duration: 1 },
         },
     },
-    get keys() {
-        return variantKeys
-    },
 }
 
 const MenuOverlay = (/*props*/) => {
-    const { isOpened } = useComponentsSelector('mainMenu')
+    const isOpened = useMainMenuState('isOpened')
     const theme = useTheme()
     const styles = stylesFactory(theme)
 
     const menuControls = useAnimation()
     const navListControls = useAnimation()
     const footerNavControls = useAnimation()
+    const isInitial = useRef(false)
 
     const sequence = useCallback(
         async (show) => {
@@ -101,8 +99,13 @@ const MenuOverlay = (/*props*/) => {
     )
 
     useEffect(() => {
-        sequence(isOpened).catch(console.error)
-    }, [sequence, isOpened])
+        if (isInitial.current) {
+            sequence(isOpened).catch(console.error)
+        } else {
+            isInitial.current = true
+            menuControls.set(variantKeys.hidden)
+        }
+    }, [sequence, isOpened, menuControls])
 
     return (
         <motion.aside
