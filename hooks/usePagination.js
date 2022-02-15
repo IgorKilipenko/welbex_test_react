@@ -1,5 +1,6 @@
 import { useMemo } from 'react'
-export const splitSymbol = '...'
+
+const splitSymbol = '...'
 
 const range = (start, end) => {
     let length = end - start + 1
@@ -51,7 +52,13 @@ const usePagination = ({
 
         if (shouldShowLeftDots && shouldShowRightDots) {
             let middleRange = range(leftSiblingIndex, rightSiblingIndex)
-            return [firstPageIndex, splitSymbol, ...middleRange, splitSymbol, lastPageIndex]
+            return [
+                firstPageIndex,
+                splitSymbol,
+                ...middleRange,
+                splitSymbol,
+                lastPageIndex,
+            ]
         }
     }, [totalCount, pageSize, siblingCount, currentPage])
 
@@ -59,3 +66,4 @@ const usePagination = ({
 }
 
 export default usePagination
+export { splitSymbol as paginationSplitSymbol }

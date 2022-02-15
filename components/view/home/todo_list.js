@@ -1,7 +1,9 @@
 import { useTheme } from '@emotion/react'
 import { nanoid } from '@reduxjs/toolkit'
 import { memoStylesFactory, styleUtils } from '@Styles'
+import { useState } from 'react'
 import { Scrollbars } from 'react-custom-scrollbars'
+import Pagination from '../pagination'
 
 const stylesFactory = memoStylesFactory((theme) => {
     const { absoluteCenter } = styleUtils
@@ -27,12 +29,31 @@ const stylesFactory = memoStylesFactory((theme) => {
             alignItems: 'center',
         },
         footer: {},
+        paginationBar: {
+            position: 'relative',
+            //width: '100%',
+            margin: '2rem auto',
+            paddingTop: '1rem',
+            display: 'flex',
+            justifyContent: 'center',
+            '&::after': {
+                content: '""',
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: 1,
+                backgroundColor: textColorDark(0.25)
+            }
+        },
     }
 })
 
 const TodoList = () => {
     const theme = useTheme()
     const styles = stylesFactory(theme)
+    const [currentPage, setCurrentPage] = useState(1)
+
     return (
         <div css={styles.container}>
             <Scrollbars
@@ -48,7 +69,13 @@ const TodoList = () => {
                     })}
                 </ul>
             </Scrollbars>
-            <div css={styles.footer}>BUTTONS</div>
+            <Pagination
+                css={styles.paginationBar}
+                currentPage={currentPage}
+                totalCount={1000}
+                pageSize={10}
+                siblingCount={1}
+            />
         </div>
     )
 }

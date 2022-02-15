@@ -1,5 +1,5 @@
 import { useTransition } from './useTransition'
 import withItemIndex from './withItemIndex'
-import usePagination from './usePagination'
+import usePagination, {paginationSplitSymbol} from './usePagination'
 
-export { useTransition, withItemIndex, usePagination }
+export { useTransition, withItemIndex, usePagination, paginationSplitSymbol }
