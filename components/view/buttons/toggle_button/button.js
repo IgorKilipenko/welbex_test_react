@@ -1,14 +1,15 @@
-import { useState } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useTheme } from '@emotion/react'
 import { motion } from 'framer-motion'
 import Lines from './lines'
 import { useDispatch, useSelector } from 'react-redux'
 import { actions as storeActions } from '@Components/store'
+import { useRouter } from 'next/router'
 
 const stylesFactory = (theme) => {
     const { absoluteCenter, bgColorLight, bp } = theme
     const width = 13
-    
+
     return {
         button: {
             position: 'relative',
@@ -40,16 +41,17 @@ const Button = (/*props*/) => {
     const { isOpened } = useSelector((state) => state.components.mainMenu)
     const [isHoverd, setHovered] = useState(false)
     const theme = useTheme()
+    const router = useRouter()
 
     const { button: buttonStyles, lines: linesStyles } = stylesFactory(theme)
 
-    const handleClick = () => {
+    const handleClick = useCallback((_, forceValue = null) => {
         dispatch(
             storeActions.components.setMainMenuState({
-                isOpened: isOpened ? false : true,
+                isOpened: forceValue != null ? forceValue : !isOpened,
             })
         )
-    }
+    },[dispatch, isOpened])
 
     const handleHover = (hovered) => {
         setHovered(hovered)
@@ -60,6 +62,18 @@ const Button = (/*props*/) => {
             setHovered(false)
         }
     }
+
+    useEffect(() => {
+        const handleRouteChange = (url) => {
+            console.debug(url)
+            handleClick(null, false)
+        }
+
+        router.events.on('routeChangeStart', handleRouteChange)
+        return () => {
+            router.events.off('routeChangeStart', handleRouteChange)
+        }
+    }, [router.events, handleClick])
 
     return (
         <motion.button

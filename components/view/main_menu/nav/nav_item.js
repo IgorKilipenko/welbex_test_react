@@ -3,6 +3,7 @@ import { memoStylesFactory } from '@Styles'
 import { motion } from 'framer-motion'
 import variantKeys from '../variant_keys'
 import { useMemo } from 'react'
+import Link from 'next/link'
 
 const stylesFactory = memoStylesFactory((theme) => {
     const { textColor, bp, fontMainSize } = theme
@@ -28,6 +29,7 @@ const stylesFactory = memoStylesFactory((theme) => {
             },
         },
         number: {
+            position: 'relative',
             opacity: 0.75,
             fontSize: `${fontSize / 2}rem`,
             width: `${fontSize}rem`,
@@ -37,9 +39,29 @@ const stylesFactory = memoStylesFactory((theme) => {
             },
         },
         text: {
+            position: 'relative',
             fontSize: `${fontSize}rem`,
+            cursor: 'pointer',
             [bp.median]: {
                 fontSize: `${fontSize * 2}rem`,
+            },
+            '&::after': {
+                content: '""',
+                position: 'absolute',
+                bottom: '0',
+                left: '0',
+                width: '100%',
+                minHeight: '1px',
+                height: '.05em',
+                transformOrigin: 'center',
+                transform: 'scaleX(0)',
+                backgroundColor: 'rgba(155, 227, 191, 1)',
+                transition: 'all .75s cubic-bezier(0.165, 0.84, 0.44, 1)'
+            },
+            '&:hover': {
+                '&::after': {
+                    transform: 'scaleX(100%)',
+                },
             },
         },
     }
@@ -85,42 +107,37 @@ const variantsFactory = (reverse) => ({
     },
 })
 
-const NavItem = ({ number, text, itemIndex, reverse, controls }) => {
+const NavItem = ({
+    number,
+    text,
+    itemIndex,
+    reverse,
+    controls,
+    href = '/',
+    handleClick,
+}) => {
     const theme = useTheme()
     const styles = stylesFactory(theme)
     const delay = useMemo(() => 0 + itemIndex * 0.05, [itemIndex])
     const variants = useMemo(() => variantsFactory(reverse), [reverse])
     return (
         <li css={styles.container}>
-            <a
-                href=""
-                css={styles.link}
-                //className="group menu-link block leading-[1.1] overflow-hidden py-10 m:py-15 js-site-link"
-            >
+            <Link
+                onClick={() => handleClick()}
+                href={href}
+                passHref
+                css={styles.link}>
                 <motion.div
                     animate={controls}
                     variants={variants}
                     initial={variants.keys.hidden}
-                    //animate={variants.keys.show}
                     exit={variants.keys.exit}
                     custom={delay}
-                    css={styles.animatedElement}
-                    //className="flex items-center text-white js-menu-slide-up"
-                >
-                    <span
-                        css={styles.number}
-                        //className="text-16 w-[3.7rem] m:w-[7rem] opacity-75"
-                    >
-                        {number}
-                    </span>
-                    <span
-                        css={styles.text}
-                        //className="menu-link__underline text-f9 m:text-f4 font-serif group-hover:text-green-light before:bg-green-light"
-                    >
-                        {text}
-                    </span>
+                    css={styles.animatedElement}>
+                    <span css={styles.number}>{number}</span>
+                    <span css={styles.text}>{text}</span>
                 </motion.div>
-            </a>
+            </Link>
         </li>
     )
 }

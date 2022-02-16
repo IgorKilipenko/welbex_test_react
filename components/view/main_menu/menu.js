@@ -4,7 +4,6 @@ import { useTheme } from '@emotion/react'
 import { memoStylesFactory, styleUtils } from '@Styles'
 import { useEffect, useCallback, useRef } from 'react'
 import NavContainer, { NavList } from './nav'
-import Footer from './footer'
 import variantKeys from './variant_keys'
 
 const stylesFactory = memoStylesFactory((theme) => {
@@ -28,7 +27,7 @@ const stylesFactory = memoStylesFactory((theme) => {
             return {
                 display: 'flex',
                 flexDirection: 'column',
-                justifyContent: 'flex-end',
+                justifyContent: 'center',
                 ...styleUtils.fullSize,
                 paddingLeft: `${padding / 2}rem`,
                 paddingRight: `${padding / 2}rem`,
@@ -77,7 +76,6 @@ const MenuOverlay = (/*props*/) => {
 
     const menuControls = useAnimation()
     const navListControls = useAnimation()
-    const footerNavControls = useAnimation()
     const isInitial = useRef(false)
 
     const sequence = useCallback(
@@ -90,12 +88,11 @@ const MenuOverlay = (/*props*/) => {
                 await sleep(200)
                 const nav = navListControls.start(variantKeys.show)
                 await Promise.all([main, Promise.any([sleep(500), nav])])
-                return await footerNavControls.start(variantKeys.show)
             } else {
                 return await menuControls.start(variantKeys.exit)
             }
         },
-        [menuControls, navListControls, footerNavControls]
+        [menuControls, navListControls]
     )
 
     useEffect(() => {
@@ -112,21 +109,13 @@ const MenuOverlay = (/*props*/) => {
             css={styles.container}
             variants={variants}
             animate={menuControls}>
-            <div
-                css={styles.table}
-                //className="relative m:absolute inset-0 flex flex-col m:justify-end pt-150 m:pt-0 px-30 m:px-130"
-            >
+            <div css={styles.table}>
                 <NavContainer>
                     <NavList
                         reverse={false}
                         {...{ controls: navListControls }}
                     />
                 </NavContainer>
-                <Footer
-                    {...{
-                        controls: footerNavControls,
-                    }}
-                />
             </div>
         </motion.aside>
     )

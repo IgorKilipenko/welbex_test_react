@@ -1,8 +1,7 @@
 import { useTheme } from '@emotion/react'
-import { memoStylesFactory, styleUtils } from '@Styles'
+import { memoStylesFactory } from '@Styles'
 
 const stylesFactory = memoStylesFactory((theme) => {
-    const { fullSize } = styleUtils
     const { bp } = theme
     return {
         container: {
@@ -13,7 +12,7 @@ const stylesFactory = memoStylesFactory((theme) => {
             paddingBottom: '4rem',
             width: '100%',
             [bp.median]: {
-                paddingBottom: '6rem',
+                paddingBottom: '30rem',
             },
         },
     }
@@ -25,7 +24,6 @@ const NavContainer = ({ children }) => {
     return (
         <nav
             css={styles.container}
-            //className="flex flex-wrap w-full items-end justify-between pb-40 m:pb-60"
             {...{ children }}
         />
     )
