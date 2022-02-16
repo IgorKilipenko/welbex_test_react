@@ -8,8 +8,15 @@ import TodoItem from './todo_item'
 
 const stylesFactory = memoStylesFactory((theme) => {
     const { absoluteCenter } = styleUtils
-    const { textColorDark, bp, bgColor } = theme
-    const fontSize = 5
+    const {
+        textColorDark,
+        fontMainSize,
+        bgColorLight,
+        bp,
+        bgColor,
+        boxShadow,
+    } = theme
+    const fontSize = fontMainSize * 0.8
     const horizontalLine = {
         content: '""',
         position: 'absolute',
@@ -73,8 +80,43 @@ const stylesFactory = memoStylesFactory((theme) => {
             },
         },
         odd: {
-            backgroundColor: bgColor(0.05)
-        }
+            backgroundColor: bgColor(0.05),
+        },
+        get addTodo() {
+            const box = (fontSize) => ({
+                bottom: `${fontSize}rem`,
+                right: `${fontSize}rem`,
+                fontSize: `${fontSize}rem`,
+                borderRadius: `${fontSize}rem`,
+                height: `${fontSize * 1.2}rem`,
+                width: `${fontSize * 1.2}rem`,
+            })
+            return {
+                position: 'absolute',
+                ...box(fontSize),
+                backgroundColor: bgColorLight(1),
+                color: textColorDark(0.5),
+                boxShadow: boxShadow(false),
+                transition: 'box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25,1)',
+                [bp.median]: {
+                    ...box(fontSize * 4),
+                },
+                '&:hover': {
+                    boxShadow: boxShadow(true),
+                },
+            }
+        },
+
+        header: {
+            position: 'relative',
+            textDecoration: 'uppercase',
+            margin: '0.5rem auto 0 5%',
+            fontSize: '3rem',
+            [bp.median]: {
+                margin: '1rem auto 0 20%',
+                fontSize: '7rem',
+            },
+        },
     }
 })
 
@@ -103,7 +145,7 @@ const TodoList = () => {
     }, [currentPage, prepreData])
 
     const handlePageChange = (page) => {
-        setCurrentPage(prevPage => {
+        setCurrentPage((prevPage) => {
             if (prevPage !== page) {
                 if (scrollRef.current) {
                     scrollRef.current.scrollTop(0)
@@ -111,11 +153,11 @@ const TodoList = () => {
             }
             return page
         })
-
     }
 
     return (
         <div data-testid="todo-list-element" css={styles.container}>
+            <div css={styles.header}>TODOS:</div>
             <Scrollbars
                 ref={scrollRef}
                 universal
@@ -125,17 +167,21 @@ const TodoList = () => {
                 css={styles.scrollContainer}>
                 <ul css={styles.list}>
                     {currentTableData.map((item, i) => {
-                        
-                        const {id:todoId, ...values} = item
+                        const { id: todoId, ...values } = item
                         const key = `${todoId}`
                         return (
-                            <li key={key} todo-id={todoId} css={[styles.item, (i % 2 !== 0) && styles.odd]}>
+                            <li
+                                key={key}
+                                todo-id={todoId}
+                                css={[styles.item, i % 2 !== 0 && styles.odd]}>
                                 <div>
                                     {/*Object.entries(values).map(([k, v], i) => {
                                         return <TodoItem key={i} name={k.toString()} value={v.toString()} />
                                     })*/}
                                     {
-                                        <TodoItem entries={Object.entries(values)}/>
+                                        <TodoItem
+                                            entries={Object.entries(values)}
+                                        />
                                     }
                                 </div>
                             </li>
@@ -151,6 +197,14 @@ const TodoList = () => {
                 siblingCount={2}
                 onPageChange={(page) => handlePageChange(page)}
             />
+            <button
+                transition={{
+                    duration: 0.3,
+                    ease: [0.25, 0.8, 0.25, 1],
+                }}
+                css={styles.addTodo}>
+                +
+            </button>
         </div>
     )
 }
