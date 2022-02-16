@@ -8,8 +8,8 @@ import PropTypes from 'prop-types'
 const splitSymbol = paginationSplitSymbol
 
 const stylesFactory = memoStylesFactory((theme) => {
-    const { textColorDark, bp } = theme
-    const height = 3
+    const { textColorDark, bp, fontMainSize } = theme
+    const height = fontMainSize*.5
     const hover = (backgroundColor, pointer='pointer') => {
         return {
             '@media (hover: hover) and (pointer: fine)': {
@@ -36,7 +36,7 @@ const stylesFactory = memoStylesFactory((theme) => {
             borderRadius: `${height / 2}rem`,
             fontSize: `${height / 1.5}rem`,
             get [bp.median]() {
-                const height = 6
+                const height = fontMainSize * 2
                 return {
                     height: `${height}rem`,
                     minWidth: `${height}rem`,
