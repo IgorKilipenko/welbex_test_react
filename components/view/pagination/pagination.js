@@ -2,6 +2,7 @@ import { useTheme } from '@emotion/react'
 import { usePagination, paginationSplitSymbol } from '@Hooks'
 import { memoStylesFactory } from '@Styles'
 import { cssToArray } from '@Utils'
+import { motion, AnimateSharedLayout, AnimatePresence } from 'framer-motion'
 import PropTypes from 'prop-types'
 
 const splitSymbol = paginationSplitSymbol
@@ -9,15 +10,16 @@ const splitSymbol = paginationSplitSymbol
 const stylesFactory = memoStylesFactory((theme) => {
     const { textColorDark, bp } = theme
     const height = 3
-    const hover =(backgroundColor) => {
+    const hover = (backgroundColor, pointer='pointer') => {
         return {
-        '@media (hover: hover) and (pointer: fine)': {
-            '&:hover': {
-                backgroundColor: backgroundColor,
-                cursor: 'pointer',
+            '@media (hover: hover) and (pointer: fine)': {
+                '&:hover': {
+                    backgroundColor: backgroundColor,
+                    cursor: pointer,
+                },
             },
-        },
-    }}
+        }
+    }
     return {
         paginationContainer: {
             display: 'flex',
@@ -43,9 +45,11 @@ const stylesFactory = memoStylesFactory((theme) => {
                     fontSize: `${height / 1.5}rem`,
                 }
             },
-            ...hover(textColorDark(0.05))
+            ...hover(textColorDark(0.05)),
         },
-        spliеter: {},
+        spliеter: {
+            ...hover('transparent', 'default')
+        },
         arrow: {
             '&::before': {
                 position: 'relative',
@@ -66,7 +70,7 @@ const stylesFactory = memoStylesFactory((theme) => {
         },
         selected: {
             backgroundColor: textColorDark(0.25),
-            ...hover(textColorDark(0.25))
+            ...hover(textColorDark(0.25)),
         },
         disabled: {},
     }
@@ -106,44 +110,60 @@ const Pagination = (props) => {
 
     let lastPage = paginationRange[paginationRange.length - 1]
     return (
-        <ul
-            css={[styles.paginationContainer, ...cssToArray(css)]}
-            className={className}>
-            <li css={styles.paginationItem} onClick={onPrevious}>
-                <div css={[styles.arrow, styles.leftArrow]} />
-            </li>
-            {paginationRange.map((pageNumber, i) => {
-                if (pageNumber === splitSymbol) {
-                    return (
-                        <li
-                            key={`${pageNumber}_${i}`}
-                            css={[styles.paginationItem, styles.spliеter]}>
-                            {splitSymbol}
-                        </li>
-                    )
-                }
+        <AnimateSharedLayout>
+            <motion.ul
+                layout
+                css={[styles.paginationContainer, ...cssToArray(css)]}
+                className={className}>
+                <motion.li layout css={styles.paginationItem} onClick={onPrevious}>
+                    <div css={[styles.arrow, styles.leftArrow]} />
+                </motion.li>
+                {paginationRange.map((pageNumber, i) => {
+                    if (pageNumber === splitSymbol) {
+                        return (
+                            <AnimatePresence key={`${pageNumber}_${i}`}>
+                                <motion.li
+                                    layout
+                                    initial={{opacity:0}}
+                                    animate={{opacity:1}}
+                                    exit={{opacity:0}}
+                                    //key={`${pageNumber}_${i}`}
+                                    css={[
+                                        styles.paginationItem,
+                                        styles.spliеter,
+                                    ]}>
+                                    {splitSymbol}
+                                </motion.li>
+                            </AnimatePresence>
+                        )
+                    }
 
-                return (
-                    <li
-                        key={`${pageNumber}_${i}`}
-                        css={[
-                            styles.paginationItem,
-                            pageNumber === currentPage && styles.selected,
-                        ]}
-                        onClick={() => onPageChange(pageNumber)}>
-                        {pageNumber}
-                    </li>
-                )
-            })}
-            <li
-                css={[
-                    styles.paginationItem,
-                    currentPage === lastPage && styles.disabled,
-                ]}
-                onClick={onNext}>
-                <div css={[styles.arrow, styles.rightArrow]} />
-            </li>
-        </ul>
+                    return (
+                        <AnimatePresence key={`${pageNumber}_${i}`}>
+                            <motion.li
+                                layout
+                                css={[
+                                    styles.paginationItem,
+                                    pageNumber === currentPage &&
+                                        styles.selected,
+                                ]}
+                                onClick={() => onPageChange(pageNumber)}>
+                                {pageNumber}
+                            </motion.li>
+                        </AnimatePresence>
+                    )
+                })}
+                <motion.li
+                    layout
+                    css={[
+                        styles.paginationItem,
+                        currentPage === lastPage && styles.disabled,
+                    ]}
+                    onClick={onNext}>
+                    <div css={[styles.arrow, styles.rightArrow]} />
+                </motion.li>
+            </motion.ul>
+        </AnimateSharedLayout>
     )
 }
 
