@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { slicies } from './reducers'
-
+import logger from 'redux-logger'
 
 
 const themeSlice = slicies.theme
@@ -26,7 +26,8 @@ const configureAppStore = ({ theme, components, todos}) => {
             components: { ...componentsSlice.getInitialState(), ...components },
             todos: { ...todoSlice.getInitialState(), ...todos}
         },
-        //devTools: process.env.NODE_ENV !== 'production',
+        middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
+        devTools: process.env.NODE_ENV !== 'production',
     })
     return store
 }
