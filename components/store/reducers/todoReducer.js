@@ -1,21 +1,23 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import {
+    createAsyncThunk,
+    createSlice,
+    createEntityAdapter,
+} from '@reduxjs/toolkit'
 import { useSelector } from 'react-redux'
 
+
 const prepreData = (data) => {
-    console.assert(data != null && (Array.isArray(data) || typeof data === 'object'), 'Data structure must be an array and not null')
+    console.assert(
+        data != null && (Array.isArray(data) || typeof data === 'object'),
+        'Data structure must be an array and not null'
+    )
     data = Array.isArray(data) ? data : [data]
-    data = data.reduce((res, item, i) => {
-        const {id = i, ...rest} = item
-        res[id] = {...rest}
-        return res
-    }, {})
     return data
 }
 
 export const updateTodoList = createAsyncThunk(
     'todos/update',
     async ({ id = '' }, { rejectWithValue }) => {
-
         try {
             const response = await fetch(
                 `https://jsonplaceholder.typicode.com/todos/${id}`,
@@ -28,8 +30,6 @@ export const updateTodoList = createAsyncThunk(
             )
             let data = await response.json()
             data = prepreData(data)
-            
-            console.log({data})
             return data
         } catch (err) {
             let error = err
@@ -41,7 +41,12 @@ export const updateTodoList = createAsyncThunk(
     }
 )
 
+const todoAdapter = createEntityAdapter({
+    selectId: (todo) => todo.id,
+})
+
 const initialState = {
+    ids: [], 
     entities: {},
     loading: false,
     error: null,
@@ -49,13 +54,29 @@ const initialState = {
 
 const todoSlice = createSlice({
     name: 'todos',
-    initialState,
-    reducers: {},
+    initialState: todoAdapter.getInitialState({
+		...initialState
+	}),
+    reducers: {
+        usersAddOne: todoAdapter.addOne,
+		usersAddMany: todoAdapter.addMany,
+		userUpdate: todoAdapter.updateOne,
+		userRemove: todoAdapter.removeOne
+    },
     extraReducers: (builder) => {
         builder.addCase(updateTodoList.fulfilled, (state, { payload }) => {
-            state.error = null
-            state.loading = false
-            Object.assign(state.entities, { ...payload })
+            let loading = true
+            if (Array.isArray(payload)) {
+                loading = false
+                todoAdapter.addMany(state, payload)
+            }else if (typeof payload == 'object') {
+                loading = false
+                todoAdapter.addOne(state, payload)
+            }
+            if (!loading) {
+                state.loading = loading
+                state.error = null
+            }
         })
         builder.addCase(updateTodoList.rejected, (state, action) => {
             state.loading = false
@@ -71,11 +92,16 @@ const todoSlice = createSlice({
     },
 })
 
+const selectors = todoAdapter.getSelectors((store) => store[todoSlice.name])
+
 /**
  *
  * @returns {{entities:object, loading:boolean, error:any?}}
  */
 const useTodoState = () => useSelector((store) => store[todoSlice.name])
+const useTodoAdapterState = () => useSelector((store) => selectors.selectAll(store))
+
+
 
 export default todoSlice
-export { useTodoState }
+export { useTodoState, useTodoAdapterState, selectors }

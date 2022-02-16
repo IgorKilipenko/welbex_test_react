@@ -7,7 +7,7 @@ export {
 } from './componentsReducer'
 export { useTodoState } from './todoReducer'
 
-import todoSlice, { updateTodoList } from './todoReducer'
+import todoSlice, { updateTodoList, useTodoAdapterState, selectors } from './todoReducer'
 
 const slicies = {
     theme: themeSlice,
@@ -15,4 +15,4 @@ const slicies = {
     todos: todoSlice,
 }
 
-export { slicies, updateTodoList }
+export { slicies, updateTodoList, useTodoAdapterState, selectors as todoSelectors }
