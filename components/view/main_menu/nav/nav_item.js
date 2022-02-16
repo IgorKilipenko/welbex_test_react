@@ -5,14 +5,42 @@ import variantKeys from '../variant_keys'
 import { useMemo } from 'react'
 
 const stylesFactory = memoStylesFactory((theme) => {
-    const { textColor } = theme
+    const { textColor, bp, fontMainSize } = theme
+    const fontSize = fontMainSize
     return {
+        container: {
+            color: textColor(1),
+        },
         animatedElement: {
             position: 'relative',
             display: 'flex',
             ...textColor,
             overflow: 'hidden',
             alignItems: 'center',
+        },
+        link: {
+            overflow: 'hidden',
+            display: 'block',
+            lineHeight: 1.1,
+            padding: '1rem 0',
+            [bp.median]: {
+                padding: '1.5rem 0',
+            },
+        },
+        number: {
+            opacity: 0.75,
+            fontSize: `${fontSize / 2}rem`,
+            width: `${fontSize}rem`,
+            [bp.median]: {
+                fontSize: `${fontSize}rem`,
+                width: `${fontSize * 2}rem`,
+            },
+        },
+        text: {
+            fontSize: `${fontSize}rem`,
+            [bp.median]: {
+                fontSize: `${fontSize * 2}rem`,
+            },
         },
     }
 })
@@ -63,10 +91,12 @@ const NavItem = ({ number, text, itemIndex, reverse, controls }) => {
     const delay = useMemo(() => 0 + itemIndex * 0.05, [itemIndex])
     const variants = useMemo(() => variantsFactory(reverse), [reverse])
     return (
-        <li>
+        <li css={styles.container}>
             <a
                 href=""
-                className="group menu-link block leading-[1.1] overflow-hidden py-10 m:py-15 js-site-link">
+                css={styles.link}
+                //className="group menu-link block leading-[1.1] overflow-hidden py-10 m:py-15 js-site-link"
+            >
                 <motion.div
                     animate={controls}
                     variants={variants}
@@ -77,10 +107,16 @@ const NavItem = ({ number, text, itemIndex, reverse, controls }) => {
                     css={styles.animatedElement}
                     //className="flex items-center text-white js-menu-slide-up"
                 >
-                    <span className="text-16 w-[3.7rem] m:w-[7rem] opacity-75">
+                    <span
+                        css={styles.number}
+                        //className="text-16 w-[3.7rem] m:w-[7rem] opacity-75"
+                    >
                         {number}
                     </span>
-                    <span className="menu-link__underline text-f9 m:text-f4 font-serif group-hover:text-green-light before:bg-green-light">
+                    <span
+                        css={styles.text}
+                        //className="menu-link__underline text-f9 m:text-f4 font-serif group-hover:text-green-light before:bg-green-light"
+                    >
                         {text}
                     </span>
                 </motion.div>
