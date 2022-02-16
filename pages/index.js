@@ -27,7 +27,7 @@ const HomePage = (/*props*/) => {
     const update = useCallback(async () => {
         const resultAction = await dispatch(updateTodoList({}))
         if (updateTodoList.fulfilled.match(resultAction)) {
-            return true
+            console.debug('success loaded todos')
         } else {
             if (resultAction.payload) {
                 console.error(resultAction.payload.field_errors)
@@ -40,6 +40,7 @@ const HomePage = (/*props*/) => {
     useEffect(() => {
         update().catch(console.error)
     },[update])
+    
     return (
         <>
             <Head>

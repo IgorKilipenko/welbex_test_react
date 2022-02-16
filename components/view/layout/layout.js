@@ -26,7 +26,6 @@ const Layout = (props) => {
     const { children } = props
     const theme = useTheme()
     const styles = stylesFactory(theme)
-    console.log({ Layout_Props: props })
     return (
         <div css={styles.container}>
             <AppBar />
