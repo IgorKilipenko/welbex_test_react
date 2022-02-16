@@ -25,6 +25,13 @@ const theme = () => {
                     : `0 14px 28px ${color(0.25)}, 0 10px 10px ${color(0.22)}`
             }
         },
+        fontHeaderSize: 10,
+        get fontSubHeaderSize() {
+            return this.fontHeaderSize * 0.7
+        },
+        get fontMainSize() {
+            return this.fontHeaderSize * 0.5
+        },
     }
 }
 
