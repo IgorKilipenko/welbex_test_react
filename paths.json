@@ -12,7 +12,9 @@
             "@Hooks": ["hooks"],
             "@Hooks/*": ["hooks/*"],
             "@Utils": ["utils"],
-            "@Utils/*": ["utils/*"]
+            "@Utils/*": ["utils/*"],
+            "@Pages": ["pages"],
+            "@Pages/*": ["pages/*"]
         }
     }
 }
