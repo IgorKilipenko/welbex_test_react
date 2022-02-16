@@ -22,7 +22,9 @@ const Globals_css = ({ bp }) => {
             cursor: 'pointer',
         },
         ':root': { '--size': '375' },
-        [bp.median]: { ':root': { '--size': '1920' } },
+        [bp.median]: { ':root': { '--size': '1280' } },
+        [bp.large]: { ':root': { '--size': '1920' } },
+        [bp.extraLarge]: { ':root': { '--size': '2560' } },
     }
 }
 

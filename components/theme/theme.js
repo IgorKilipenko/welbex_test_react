@@ -14,6 +14,16 @@ const theme = () => {
         },
         bp: {
             median: `@media (min-width: 768px)`,
+            large: `@media (min-width: 1024px)`,
+            extraLarge: `@media (min-width: 1200px)`,
+        },
+        get boxShadow() {
+            const color = this.textColorDark
+            return (hovered = false) => {
+                return !hovered
+                    ? `0 1px 3px ${color(0.12)}, 0 1px 2px ${color(0.24)}`
+                    : `0 14px 28px ${color(0.25)}, 0 10px 10px ${color(0.22)}`
+            }
         },
     }
 }
