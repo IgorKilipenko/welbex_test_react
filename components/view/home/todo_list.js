@@ -1,14 +1,14 @@
 import { useTheme } from '@emotion/react'
-import { nanoid } from '@reduxjs/toolkit'
 import { useTodoState } from '@Store'
 import { memoStylesFactory, styleUtils } from '@Styles'
 import { useRef, useState, useMemo, useCallback } from 'react'
 import { Scrollbars } from 'react-custom-scrollbars'
 import Pagination from '../pagination'
+import TodoItem from './todo_item'
 
 const stylesFactory = memoStylesFactory((theme) => {
     const { absoluteCenter } = styleUtils
-    const { textColorDark, bp } = theme
+    const { textColorDark, bp, bgColor } = theme
     const fontSize = 5
     const horizontalLine = {
         content: '""',
@@ -23,7 +23,7 @@ const stylesFactory = memoStylesFactory((theme) => {
         container: {
             absoluteCenter,
             color: textColorDark(),
-            fontSize: `${fontSize / 2}rem`,
+            fontSize: `${fontSize / 2.5}rem`,
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'flex-start',
@@ -35,6 +35,10 @@ const stylesFactory = memoStylesFactory((theme) => {
         },
         scrollContainer: {
             position: 'relative',
+            marginTop: '1rem',
+            [bp.median]: {
+                marginTop: '3rem',
+            },
         },
         list: {
             overflow: 'hidden',
@@ -68,6 +72,9 @@ const stylesFactory = memoStylesFactory((theme) => {
                 ...horizontalLine,
             },
         },
+        odd: {
+            backgroundColor: bgColor(0.05)
+        }
     }
 })
 
@@ -122,11 +129,14 @@ const TodoList = () => {
                         const {id:todoId, ...values} = item
                         const key = `${todoId}`
                         return (
-                            <li key={key} todo-id={todoId} css={styles.item}>
+                            <li key={key} todo-id={todoId} css={[styles.item, (i % 2 !== 0) && styles.odd]}>
                                 <div>
-                                    {Object.entries(values).map(([k, v], i) => {
-                                        return (<p key={i}>{`${k} : ${v}`}</p>)
-                                    })}
+                                    {/*Object.entries(values).map(([k, v], i) => {
+                                        return <TodoItem key={i} name={k.toString()} value={v.toString()} />
+                                    })*/}
+                                    {
+                                        <TodoItem entries={Object.entries(values)}/>
+                                    }
                                 </div>
                             </li>
                         )
@@ -138,7 +148,7 @@ const TodoList = () => {
                 currentPage={currentPage}
                 totalCount={data.current.length}
                 pageSize={pageSize}
-                siblingCount={1}
+                siblingCount={2}
                 onPageChange={(page) => handlePageChange(page)}
             />
         </div>
