@@ -1,27 +1,48 @@
 import NavItem from './nav_item'
+import { useTheme } from '@emotion/react'
+import { memoStylesFactory, styleUtils } from '@Styles'
+
+const stylesFactory = memoStylesFactory((theme) => {
+    const { fullSize } = styleUtils
+    const { bp } = theme
+    return {
+        container: {
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'flex-start',
+            width: '100%',
+            [bp.median]: {
+                width: 'auto',
+            },
+        },
+    }
+})
 
 const NavList = ({ reverse = true, controls }) => {
+    const theme = useTheme()
+    const styles = stylesFactory(theme)
     return (
         <>
-            <ul className="w-full m:w-auto flex flex-col items-start">
-                {[
-                    'Solutions',
-                    'Solutions',
-                    'Solutions',
-                    'Solutions',
-                    'Solutions',
-                ].map((text, i, arr) => {
-                    return (
-                        <NavItem
-                            key={i}
-                            controls={controls}
-                            itemIndex={reverse ? arr.length - i - 1 : i}
-                            reverse={reverse}
-                            number={`${(i + 1).toString().padStart(2, '0')}`}
-                            text={text}
-                        />
-                    )
-                })}
+            <ul
+                css={styles.container}
+                //className="w-full m:w-auto flex flex-col items-start"
+            >
+                {['Home', 'Totos', 'Solutions', 'Solutions', 'Solutions'].map(
+                    (text, i, arr) => {
+                        return (
+                            <NavItem
+                                key={i}
+                                controls={controls}
+                                itemIndex={reverse ? arr.length - i - 1 : i}
+                                reverse={reverse}
+                                number={`${(i + 1)
+                                    .toString()
+                                    .padStart(2, '0')}`}
+                                text={text}
+                            />
+                        )
+                    }
+                )}
             </ul>
             <div className="w-full m:w-auto m:flex">
                 <div className="m:mr-50 my-40 m:my-0 py-40 m:py-0 border-t border-b m:border-0 border-white border-opacity-25 js-menu-up">
