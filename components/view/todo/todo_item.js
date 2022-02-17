@@ -11,17 +11,26 @@ const {
 } = actions
 
 const stylesFactory = memoStylesFactory((theme) => {
-    const { textColorDark, bp, boxShadow } = theme
-    const nameColumnWidth = 30
+    const { textColorDark, bp } = theme
     return {
         container: { display: 'flex', flexDirection: 'row' },
+        gride: {
+            display: 'grid',
+            gridTemplateColumns: '4fr 1fr',
+        },
+        contentGride: {
+            display: 'grid',
+            gridTemplateColumns: '1fr 2fr',
+            columnGap: '1rem',
+            position: 'relative',
+            [bp.median]: {
+                gridTemplateColumns: '1fr 3fr',
+                columnGap: '3rem',
+            },
+        },
+
         name: {
             position: 'relative',
-            width: `${nameColumnWidth + 15}%`,
-            marginRight: '3rem',
-            [bp.median]: {
-                width: `${nameColumnWidth}%`,
-            },
             '&::after': {
                 content: '""',
                 position: 'absolute',
@@ -32,19 +41,8 @@ const stylesFactory = memoStylesFactory((theme) => {
                 backgroundColor: textColorDark(0.25),
             },
         },
-        get itemContainer() {
-            return {
-                ...this.container,
-                position: 'relative',
-                width: '100%',
-            }
-        },
         value: {
             position: 'relative',
-            width: `${100 - nameColumnWidth - 15}%`,
-            [bp.median]: {
-                width: `${100 - nameColumnWidth}%`,
-            },
         },
         controlsContainer: {
             display: 'flex',
@@ -65,10 +63,10 @@ const TodoItem = ({ entries = [], todoId, css: overrideCss, ...restProps }) => {
     const theme = useTheme()
     const styles = stylesFactory(theme)
     const dispatch = useDispatch()
-    const columns = entries.reduce(
-        (res, [name, value], i) => {
-            res.names.push(<div key={`name_${i}`}>{`${name}:`}</div>)
-            res.values.push(
+    const columns = entries.map(([name, value], i) => {
+        return (
+            <>
+                <div key={`name_${i}`} css={styles.name}>{`${name}:`}</div>
                 <Editable
                     key={`value_${i}`}
                     text={`${value}`}
@@ -82,31 +80,25 @@ const TodoItem = ({ entries = [], todoId, css: overrideCss, ...restProps }) => {
                             onChange={(e) =>
                                 handleValueChange(e, e.target.value)
                             }
-                            placeholder={`${placeholder}`} value={`${value}`}
+                            placeholder={`${placeholder}`}
+                            value={`${value}`}
                         />
                     )}
                 </Editable>
-            )
-            return res
-        },
-        { names: [], values: [] }
-    )
+            </>
+        )
+    })
     return (
-        <div
-            css={[styles.container, ...cssToArray(overrideCss)]}
-            {...restProps}>
-            <div css={styles.itemContainer}>
-                <div css={styles.name}>{columns.names}</div>
-                <div css={styles.value}>{columns.values}</div>
-                <div css={styles.controlsContainer}>
-                    <Button
-                        onClick={() => {
-                            const id = todoId
-                            dispatch(todoRemove(id))
-                        }}>
-                        delete
-                    </Button>
-                </div>
+        <div css={[styles.gride, ...cssToArray(overrideCss)]} {...restProps}>
+            <div css={styles.contentGride}>{columns}</div>
+            <div css={styles.controlsContainer}>
+                <Button
+                    onClick={() => {
+                        const id = todoId
+                        dispatch(todoRemove(id))
+                    }}>
+                    delete
+                </Button>
             </div>
         </div>
     )
