@@ -2,6 +2,7 @@ import { useTheme } from '@emotion/react'
 import { memoStylesFactory } from '@Styles'
 import { motion } from 'framer-motion'
 import { useState } from 'react'
+import PropTypes from 'prop-types'
 
 const stylesFactory = memoStylesFactory((theme) => {
     const { textColorDark, fontMainSize, bgColorLight, bp } = theme
@@ -38,7 +39,10 @@ const AddButton = ({ onClick, text = '+' }) => {
     }
     return (
         <motion.button
-            onClick={onClick}
+            onClick={(e) => {
+                e.preventDefault()
+                onClick()
+            }}
             css={styles.container}
             transition={{ duration: 0.3, ease: [0.25, 0.8, 0.25, 1] }}
             onMouseEnter={() => setHovered(true)}
@@ -47,6 +51,11 @@ const AddButton = ({ onClick, text = '+' }) => {
             {text}
         </motion.button>
     )
+}
+
+AddButton.propTypes = {
+    onClick: PropTypes.func.isRequired,
+    text: PropTypes.string,
 }
 
 export default AddButton

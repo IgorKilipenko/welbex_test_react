@@ -1,11 +1,18 @@
 import { useTheme } from '@emotion/react'
 import { useTodoState } from '@Store'
 import { memoStylesFactory, styleUtils } from '@Styles'
-import { useRef, useState, useMemo, useCallback } from 'react'
+import { useRef, useState, useMemo, useCallback, useEffect } from 'react'
 import { Scrollbars } from 'react-custom-scrollbars'
 import Pagination from '../pagination'
 import { AddButton } from '../buttons'
 import TodoItem from './todo_item'
+import { nanoid } from '@reduxjs/toolkit'
+import { useDispatch } from 'react-redux'
+import { actions } from '@Store'
+
+const {
+    todos: { todoAddOne },
+} = actions
 
 const stylesFactory = memoStylesFactory((theme) => {
     const { absoluteCenter } = styleUtils
@@ -129,6 +136,9 @@ const TodoList = () => {
     const pageSize = 5
     const data = useRef([])
     const scrollRef = useRef(null)
+    const pageCount = useRef(0)
+    const dispatch = useDispatch()
+    const [hasNewTodo, setHasNewTodo] = useState(false)
 
     const prepreData = useCallback(() => {
         return !todos.error && !todos.loading && todos.entities
@@ -146,6 +156,7 @@ const TodoList = () => {
     }, [currentPage, prepreData])
 
     const handlePageChange = (page) => {
+        console.log({ page })
         setCurrentPage((prevPage) => {
             if (prevPage !== page) {
                 if (scrollRef.current) {
@@ -154,6 +165,36 @@ const TodoList = () => {
             }
             return page
         })
+    }
+
+    const handleAddTodo = () => {
+        dispatch(
+            todoAddOne({
+                id: nanoid(),
+                userId: 'new userId',
+                title: 'new title',
+                completed: 'new completed state'
+            })
+        )
+        setHasNewTodo(true)
+    }
+
+    useEffect(() => {
+        setCurrentPage((prevPage) => {
+            if (hasNewTodo) {
+                if (prevPage !== pageCount.current) {
+                    if (scrollRef.current) {
+                        scrollRef.current.scrollToBottom()
+                    }
+                }
+                setHasNewTodo(false)
+            }
+            return pageCount.current || prevPage
+        })
+    }, [hasNewTodo])
+
+    const handleTotalCountChange = (count, totalPageCount) => {
+        pageCount.current = totalPageCount
     }
 
     return (
@@ -176,9 +217,6 @@ const TodoList = () => {
                                 todo-id={todoId}
                                 css={[styles.item, i % 2 !== 0 && styles.odd]}>
                                 <div>
-                                    {/*Object.entries(values).map(([k, v], i) => {
-                                        return <TodoItem key={i} name={k.toString()} value={v.toString()} />
-                                    })*/}
                                     {
                                         <TodoItem
                                             entries={Object.entries(values)}
@@ -197,8 +235,11 @@ const TodoList = () => {
                 pageSize={pageSize}
                 siblingCount={2}
                 onPageChange={(page) => handlePageChange(page)}
+                onTotalCountChange={(totalCount, pageCount) =>
+                    handleTotalCountChange(totalCount, pageCount)
+                }
             />
-            <AddButton />
+            <AddButton onClick={() => handleAddTodo()} />
         </div>
     )
 }

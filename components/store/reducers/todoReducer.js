@@ -58,10 +58,10 @@ const todoSlice = createSlice({
 		...initialState
 	}),
     reducers: {
-        usersAddOne: todoAdapter.addOne,
-		usersAddMany: todoAdapter.addMany,
-		userUpdate: todoAdapter.updateOne,
-		userRemove: todoAdapter.removeOne
+        todoAddOne: todoAdapter.addOne,
+		todoAddMany: todoAdapter.addMany,
+		todoUpdate: todoAdapter.updateOne,
+		todoRemove: todoAdapter.removeOne
     },
     extraReducers: (builder) => {
         builder.addCase(updateTodoList.fulfilled, (state, { payload }) => {
@@ -100,8 +100,8 @@ const selectors = todoAdapter.getSelectors((store) => store[todoSlice.name])
  */
 const useTodoState = () => useSelector((store) => store[todoSlice.name])
 const useTodoAdapterState = () => useSelector((store) => selectors.selectAll(store))
-
+const useTodoTotalCount = () => useSelector((store) => selectors.selectTotal(store))
 
 
 export default todoSlice
-export { useTodoState, useTodoAdapterState, selectors }
+export { useTodoState, useTodoAdapterState, useTodoTotalCount, selectors }
