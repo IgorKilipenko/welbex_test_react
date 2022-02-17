@@ -1,4 +1,4 @@
-import configureAppStore, { actions } from '@Store'
+import configureAppStore from '@Store'
 
 const initialState = {
     theme: {},
