@@ -1,9 +1,10 @@
 import { useTheme } from '@emotion/react'
 import { memoStylesFactory } from '@Styles'
 import { cssToArray } from '@Utils'
-import { Button } from '../buttons'
+import { Button } from '@Components/view/buttons'
 import { useDispatch } from 'react-redux'
 import { actions } from '@Store'
+import Editable from '@Components/view/editable'
 
 const {
     todos: { todoRemove },
@@ -52,6 +53,11 @@ const stylesFactory = memoStylesFactory((theme) => {
             alignItems: 'flex-end',
             minWidth: '5rem',
         },
+        input: {
+            fontSize: 'inherit',
+            backgroundColor: 'inherit',
+            width: '80%',
+        },
     }
 })
 
@@ -62,7 +68,25 @@ const TodoItem = ({ entries = [], todoId, css: overrideCss, ...restProps }) => {
     const columns = entries.reduce(
         (res, [name, value], i) => {
             res.names.push(<div key={`name_${i}`}>{`${name}:`}</div>)
-            res.values.push(<div key={`value_${i}`}>{`${value}`}</div>)
+            res.values.push(
+                <Editable
+                    key={`value_${i}`}
+                    text={`${value}`}
+                    placeholder={`${value}`}
+                    type="input">
+                    {({ ref, value, handleValueChange, placeholder }) => (
+                        <input
+                            ref={ref}
+                            css={styles.input}
+                            type="text"
+                            onChange={(e) =>
+                                handleValueChange(e, e.target.value)
+                            }
+                            placeholder={`${placeholder}`} value={`${value}`}
+                        />
+                    )}
+                </Editable>
+            )
             return res
         },
         { names: [], values: [] }
