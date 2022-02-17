@@ -173,24 +173,24 @@ const TodoList = () => {
                 id: nanoid(),
                 userId: 'new userId',
                 title: 'new title',
-                completed: 'new completed state'
+                completed: 'new completed state',
             })
         )
         setHasNewTodo(true)
     }
 
     useEffect(() => {
-        setCurrentPage((prevPage) => {
-            if (hasNewTodo) {
+        if (hasNewTodo) {
+            setCurrentPage((prevPage) => {
                 if (prevPage !== pageCount.current) {
                     if (scrollRef.current) {
                         scrollRef.current.scrollToBottom()
                     }
                 }
-                setHasNewTodo(false)
-            }
-            return pageCount.current || prevPage
-        })
+                return pageCount.current || prevPage
+            })
+            setHasNewTodo(false)
+        }
     }, [hasNewTodo])
 
     const handleTotalCountChange = (count, totalPageCount) => {
