@@ -49,12 +49,8 @@ const TodoItem = ({ entries = [], css: overrideCss, ...restProps }) => {
         <div
             css={[styles.container, ...cssToArray(overrideCss)]}
             {...restProps}>
-            {
-                <>
-                    <div css={styles.name}>{columns.names}</div>
-                    <div css={styles.value}>{columns.values}</div>
-                </>
-            }
+            <div css={styles.name}>{columns.names}</div>
+            <div css={styles.value}>{columns.values}</div>
         </div>
     )
 }
