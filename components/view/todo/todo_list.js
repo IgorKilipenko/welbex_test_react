@@ -4,6 +4,7 @@ import { memoStylesFactory, styleUtils } from '@Styles'
 import { useRef, useState, useMemo, useCallback } from 'react'
 import { Scrollbars } from 'react-custom-scrollbars'
 import Pagination from '../pagination'
+import { AddButton } from '../buttons'
 import TodoItem from './todo_item'
 
 const stylesFactory = memoStylesFactory((theme) => {
@@ -197,14 +198,7 @@ const TodoList = () => {
                 siblingCount={2}
                 onPageChange={(page) => handlePageChange(page)}
             />
-            <button
-                transition={{
-                    duration: 0.3,
-                    ease: [0.25, 0.8, 0.25, 1],
-                }}
-                css={styles.addTodo}>
-                +
-            </button>
+            <AddButton />
         </div>
     )
 }
