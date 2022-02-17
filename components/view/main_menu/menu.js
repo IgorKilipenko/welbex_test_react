@@ -84,11 +84,13 @@ const MenuOverlay = (/*props*/) => {
                 new Promise((resolve) => setTimeout(resolve, ms))
             if (show) {
                 menuControls.set(variantKeys.hidden)
+                navListControls.start(variantKeys.hidden)
                 const main = menuControls.start(variantKeys.show)
                 await sleep(200)
                 const nav = navListControls.start(variantKeys.show)
                 await Promise.all([main, Promise.any([sleep(500), nav])])
             } else {
+                await navListControls.start(variantKeys.exit)
                 return await menuControls.start(variantKeys.exit)
             }
         },
@@ -101,8 +103,9 @@ const MenuOverlay = (/*props*/) => {
         } else {
             isInitial.current = true
             menuControls.set(variantKeys.hidden)
+            navListControls.set(variantKeys.hidden)
         }
-    }, [sequence, isOpened, menuControls])
+    }, [sequence, isOpened, menuControls, navListControls])
 
     return (
         <motion.aside

@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import variantKeys from '../variant_keys'
 import { useMemo } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 const stylesFactory = memoStylesFactory((theme) => {
     const { textColor, bp, fontMainSize } = theme
@@ -20,6 +21,7 @@ const stylesFactory = memoStylesFactory((theme) => {
             alignItems: 'center',
         },
         link: {
+            position: 'relative',
             overflow: 'hidden',
             display: 'block',
             lineHeight: 1.1,
@@ -56,7 +58,7 @@ const stylesFactory = memoStylesFactory((theme) => {
                 transformOrigin: 'center',
                 transform: 'scaleX(0)',
                 backgroundColor: 'rgba(155, 227, 191, 1)',
-                transition: 'all .75s cubic-bezier(0.165, 0.84, 0.44, 1)'
+                transition: 'all .75s cubic-bezier(0.165, 0.84, 0.44, 1)',
             },
             '&:hover': {
                 '&::after': {
@@ -86,6 +88,8 @@ const variantsFactory = (reverse) => ({
         }
     },
     [variantKeys.hidden]: {
+        paddingTop: 0,
+        paddingBottom: 0,
         get translateY() {
             return reverse ? '100%' : '-100%'
         },
@@ -95,7 +99,7 @@ const variantsFactory = (reverse) => ({
         get translateY() {
             return reverse ? '-100%' : '100%'
         },
-        paddingTop: '10rem',
+        [reverse ? 'paddingTop' : 'paddingBottom']: '10rem',
         opacity: 0,
         transition: {
             translateY: { ease: 'easeIn', duration: 0.2, delay: 0.2 },
@@ -114,30 +118,33 @@ const NavItem = ({
     reverse,
     controls,
     href = '/',
-    handleClick,
 }) => {
     const theme = useTheme()
     const styles = stylesFactory(theme)
     const delay = useMemo(() => 0 + itemIndex * 0.05, [itemIndex])
     const variants = useMemo(() => variantsFactory(reverse), [reverse])
+    const router = useRouter()
+
+    const handleClick = (e) => {
+        e.preventDefault()
+        router.push(href, undefined, {
+            shallow: false,
+        })
+    }
+
     return (
         <li css={styles.container}>
-            <Link
-                onClick={() => handleClick()}
-                href={href}
-                passHref
-                css={styles.link}>
+            <a css={styles.link}>
                 <motion.div
+                    onClick={(e) => handleClick(e)}
                     animate={controls}
                     variants={variants}
-                    initial={variants.keys.hidden}
-                    exit={variants.keys.exit}
                     custom={delay}
                     css={styles.animatedElement}>
                     <span css={styles.number}>{number}</span>
                     <span css={styles.text}>{text}</span>
                 </motion.div>
-            </Link>
+            </a>
         </li>
     )
 }
