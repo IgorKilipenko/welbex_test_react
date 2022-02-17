@@ -3,7 +3,6 @@ import { memoStylesFactory } from '@Styles'
 import { motion } from 'framer-motion'
 import variantKeys from '../variant_keys'
 import { useMemo } from 'react'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 const stylesFactory = memoStylesFactory((theme) => {
