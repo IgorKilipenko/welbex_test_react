@@ -44,6 +44,7 @@ const stylesFactory = memoStylesFactory((theme) => {
             position: 'relative',
             fontSize: `${fontSize}rem`,
             cursor: 'pointer',
+            display: 'inline-block',
             [bp.median]: {
                 fontSize: `${fontSize * 2}rem`,
             },
@@ -60,10 +61,9 @@ const stylesFactory = memoStylesFactory((theme) => {
                 backgroundColor: 'rgba(155, 227, 191, 1)',
                 transition: 'all .75s cubic-bezier(0.165, 0.84, 0.44, 1)',
             },
-            '&:hover': {
-                '&::after': {
-                    transform: 'scaleX(100%)',
-                },
+            '&:hover::after': {
+                //transformOrigin: 'left',
+                transform: 'scaleX(1)',
             },
         },
     }

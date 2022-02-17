@@ -45,9 +45,9 @@ const AddButton = ({ onClick, text = '+' }) => {
             }}
             css={styles.container}
             transition={{ duration: 0.3, ease: [0.25, 0.8, 0.25, 1] }}
-            onMouseEnter={() => setHovered(true)}
-            onMouseLeave={() => setHovered(false)}
-            whileHover={animate}>
+            onHoverStart={() => setHovered(true)}
+            onHoverEnd={() => setHovered(false)}
+            animate={animate}>
             {text}
         </motion.button>
     )
