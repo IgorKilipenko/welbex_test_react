@@ -65,7 +65,6 @@ const Button = (/*props*/) => {
 
     useEffect(() => {
         const handleRouteChange = (url) => {
-            console.debug(url)
             handleClick(null, false)
         }
 
