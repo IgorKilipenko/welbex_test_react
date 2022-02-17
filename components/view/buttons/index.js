@@ -1,5 +1,5 @@
-import Button from './button'
+import ButtonBase from './button_base'
 import ToggleButton from './toggle_button'
 import AddButton from './add_button'
 
-export { Button, ToggleButton, AddButton }
+export { ButtonBase as Button, ToggleButton, AddButton }
