@@ -7,19 +7,29 @@ const stylesFactory = memoStylesFactory((theme) => {
         container: {
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'flex-start',
+            alignItems: 'center',
             width: '100%',
-            marginTop: '10%',
+            margin: '0 2rem',
+            justifyContent: 'center',
             [bp.median]: {
                 width: 'auto',
+                alignItems: 'flex-start',
+                justifyContent: 'center',
             },
         },
         header: {
-            fontSize:`${fontHeaderSize}rem`
+            fontSize: `${fontHeaderSize / 4}rem`,
+            fontWeight: 'bold',
+            [bp.median]: {
+                fontSize: `${fontHeaderSize}rem`,
+            },
         },
         text: {
-            fontSize:`${fontMainSize}rem`
-        }
+            fontSize: `${fontMainSize / 3}rem`,
+            [bp.median]: {
+                fontSize: `${fontHeaderSize}rem`,
+            },
+        },
     }
 })
 
@@ -27,7 +37,7 @@ const HomeComponent = () => {
     const theme = useTheme()
     const styles = stylesFactory(theme)
     return (
-        <div  css={styles.container}>
+        <div css={styles.container}>
             <div css={styles.header}>Тестовое задание React</div>
             <div css={styles.text}>выполнил: Килипенко Игорь</div>
         </div>
