@@ -4,3 +4,5 @@ export const cssToArray = (css) => {
     }
     return [css]
 }
+
+export const varToString = varObj => Object.keys(varObj)[0]
