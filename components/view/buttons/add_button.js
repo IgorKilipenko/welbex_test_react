@@ -41,7 +41,7 @@ const AddButton = ({ onClick, text = '+' }) => {
         <motion.button
             onClick={(e) => {
                 e.preventDefault()
-                onClick()
+                onClick(e)
             }}
             css={styles.container}
             transition={{ duration: 0.3, ease: [0.25, 0.8, 0.25, 1] }}
