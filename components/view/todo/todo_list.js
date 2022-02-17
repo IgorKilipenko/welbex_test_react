@@ -219,6 +219,7 @@ const TodoList = () => {
                                 <div>
                                     {
                                         <TodoItem
+                                            todoId={todoId}
                                             entries={Object.entries(values)}
                                         />
                                     }
