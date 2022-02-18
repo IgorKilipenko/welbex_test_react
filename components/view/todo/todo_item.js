@@ -5,9 +5,10 @@ import { Button } from '@Components/view/buttons'
 import { useDispatch } from 'react-redux'
 import { actions } from '@Store'
 import Editable from '@Components/view/editable'
+import { useRef, useState } from 'react'
 
 const {
-    todos: { todoRemove },
+    todos: { todoRemove, todoUpdate },
 } = actions
 
 const stylesFactory = memoStylesFactory((theme) => {
@@ -67,42 +68,73 @@ const TodoItem = ({ entries = [], todoId, css: overrideCss, ...restProps }) => {
     const theme = useTheme()
     const styles = stylesFactory(theme)
     const dispatch = useDispatch()
-    const columns = entries.map(([name, value], i) => {
-        return (
-            <>
-                <div key={`name_${i}`} css={styles.name}>{`${name}:`}</div>
-                <Editable
-                    key={`value_${i}`}
-                    text={`${value}`}
-                    placeholder={`${value}`}
-                    type="input">
-                    {({ ref, value, handleValueChange, placeholder }) => (
-                        <input
-                            ref={ref}
-                            css={styles.input}
-                            type="text"
-                            onChange={(e) =>
-                                handleValueChange(e, e.target.value)
-                            }
-                            placeholder={`${placeholder}`}
-                            value={`${value}`}
-                        />
-                    )}
-                </Editable>
-            </>
+    //const editedTodo = useRef(null)
+    const [editedTodo, setEditedTodo] = useState(null)
+    const columns = entries.reduce((res, [name, value], i) => {
+        res.push(<div key={`name_${i}`} css={styles.name}>{`${name}:`}</div>)
+        res.push(
+            <Editable
+                key={`value_${i}`}
+                text={`${value}`}
+                placeholder={`${value}`}
+                type="input">
+                {({ ref, value, handleValueChange, placeholder }) => (
+                    <input
+                        ref={ref}
+                        css={styles.input}
+                        type="text"
+                        onChange={(e) => {
+                            handleValueChange(e, e.target.value)
+                            setEditedTodo((prevState) => ({
+                                ...prevState,
+                                id: todoId,
+                                [name.replace(/[\s:]+/i, '')]: e.target.value,
+                            }))
+                        }}
+                        placeholder={`${placeholder}`}
+                        value={`${value}`}
+                    />
+                )}
+            </Editable>
         )
-    })
+        return res
+    }, [])
     return (
         <div css={[styles.gride, ...cssToArray(overrideCss)]} {...restProps}>
             <div css={styles.contentGride}>{columns}</div>
             <div css={styles.controlsContainer}>
-                <Button
-                    onClick={() => {
-                        const id = todoId
-                        dispatch(todoRemove(id))
-                    }}>
-                    delete
-                </Button>
+                <div>
+                    <Button
+                        onClick={() => {
+                            const id = todoId
+                            dispatch(todoRemove(id))
+                        }}>
+                        delete
+                    </Button>
+                </div>
+                <div>
+                    {editedTodo && (
+                        <Button
+                            onClick={() => {
+                                if (
+                                    editedTodo != null &&
+                                    typeof editedTodo === 'object'
+                                ) {
+                                    let { id = todoId, ...changes } = editedTodo
+                                    dispatch(
+                                        todoUpdate({
+                                            id,
+                                            changes,
+                                        })
+                                    )
+                                    console.debug('SAVE', editedTodo)
+                                    setEditedTodo(null)
+                                }
+                            }}>
+                            save
+                        </Button>
+                    )}
+                </div>
             </div>
         </div>
     )
