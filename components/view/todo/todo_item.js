@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux'
 import { actions } from '@Store'
 import Editable from '@Components/view/editable'
 import { useRef, useState } from 'react'
+import { motion } from 'framer-motion'
 
 const {
     todos: { todoRemove, todoUpdate },
@@ -14,7 +15,12 @@ const {
 const stylesFactory = memoStylesFactory((theme) => {
     const { textColorDark, bp } = theme
     return {
-        container: { display: 'flex', flexDirection: 'row' },
+        container: {
+            padding: '1rem',
+            [bp.median]: {
+                padding: '2rem',
+            },
+        },
         gride: {
             display: 'grid',
             gridTemplateColumns: '4fr 1fr',
@@ -100,42 +106,51 @@ const TodoItem = ({ entries = [], todoId, css: overrideCss, ...restProps }) => {
         return res
     }, [])
     return (
-        <div css={[styles.gride, ...cssToArray(overrideCss)]} {...restProps}>
-            <div css={styles.contentGride}>{columns}</div>
-            <div css={styles.controlsContainer}>
-                <div>
-                    <Button
-                        onClick={() => {
-                            const id = todoId
-                            dispatch(todoRemove(id))
-                        }}>
-                        delete
-                    </Button>
-                </div>
-                <div>
-                    {editedTodo && (
+        <div css={styles.container}>
+            <motion.div
+                css={[styles.gride, ...cssToArray(overrideCss)]}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: false, amount: 0.5 }}
+                transition={{ duration: 0.5, ease: 'easeInOut' }}
+                {...restProps}>
+                <div css={styles.contentGride}>{columns}</div>
+                <div css={styles.controlsContainer}>
+                    <div>
                         <Button
                             onClick={() => {
-                                if (
-                                    editedTodo != null &&
-                                    typeof editedTodo === 'object'
-                                ) {
-                                    let { id = todoId, ...changes } = editedTodo
-                                    dispatch(
-                                        todoUpdate({
-                                            id,
-                                            changes,
-                                        })
-                                    )
-                                    console.debug('SAVE', editedTodo)
-                                    setEditedTodo(null)
-                                }
+                                const id = todoId
+                                dispatch(todoRemove(id))
                             }}>
-                            save
+                            delete
                         </Button>
-                    )}
+                    </div>
+                    <div>
+                        {editedTodo && (
+                            <Button
+                                onClick={() => {
+                                    if (
+                                        editedTodo != null &&
+                                        typeof editedTodo === 'object'
+                                    ) {
+                                        let { id = todoId, ...changes } =
+                                            editedTodo
+                                        dispatch(
+                                            todoUpdate({
+                                                id,
+                                                changes,
+                                            })
+                                        )
+                                        console.debug('SAVE', editedTodo)
+                                        setEditedTodo(null)
+                                    }
+                                }}>
+                                save
+                            </Button>
+                        )}
+                    </div>
                 </div>
-            </div>
+            </motion.div>
         </div>
     )
 }

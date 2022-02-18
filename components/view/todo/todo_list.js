@@ -70,12 +70,6 @@ const stylesFactory = memoStylesFactory((theme) => {
             '&::before': {
                 ...horizontalLine,
             },
-            '& > div': {
-                padding: '1rem',
-                [bp.median]: {
-                    padding: '2rem',
-                },
-            },
         },
         paginationBar: {
             position: 'relative',
@@ -216,14 +210,10 @@ const TodoList = () => {
                                 key={key}
                                 todo-id={todoId}
                                 css={[styles.item, i % 2 !== 0 && styles.odd]}>
-                                <div>
-                                    {
-                                        <TodoItem
-                                            todoId={todoId}
-                                            entries={Object.entries(values)}
-                                        />
-                                    }
-                                </div>
+                                <TodoItem
+                                    todoId={todoId}
+                                    entries={Object.entries(values)}
+                                />
                             </li>
                         )
                     })}
