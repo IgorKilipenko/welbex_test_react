@@ -8,6 +8,7 @@
     "test": "jest --watch",
     "test:ci": "jest --ci"
   },
+  "browserslist": [">0.3%", "not ie 11", "not dead", "not op_mini all"],
   "dependencies": {
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
