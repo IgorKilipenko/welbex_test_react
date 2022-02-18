@@ -10,8 +10,8 @@ const stylesFactory = memoStylesFactory((theme) => {
     return {
         get container() {
             const box = (fontSize) => ({
-                bottom: `${fontSize}rem`,
-                right: `${fontSize}rem`,
+                bottom: `${fontSize/2}rem`,
+                right: `${fontSize/2}rem`,
                 width: `${fontSize}rem`,
                 height: `${fontSize}rem`,
             })
@@ -20,10 +20,10 @@ const stylesFactory = memoStylesFactory((theme) => {
                 left: '50%',
                 top: '50%',
                 transform: 'translate(-50%, -50%)',
-                borderRadius: '0.5rem',
+                borderRadius: 1,
                 backgroundColor: textColorDark(0.75),
                 width: '50%',
-                height: '0.5rem',
+                height: 2,
             }
             return {
                 position: 'absolute',
@@ -32,6 +32,7 @@ const stylesFactory = memoStylesFactory((theme) => {
                 ...box(fontSize),
                 backgroundColor: bgColorLight(1),
                 color: textColorDark(0.5),
+                bottom: `${fontSize}rem`,
                 [bp.median]: {
                     ...box(fontSize * 4),
                 },
@@ -43,7 +44,7 @@ const stylesFactory = memoStylesFactory((theme) => {
                     content: '""',
                     ...line,
                     height: '50%',
-                    width: '0.5rem',
+                    width: 2,
                 },
             }
         },
