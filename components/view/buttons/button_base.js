@@ -14,7 +14,7 @@ const stylesFactory = memoStylesFactory((theme) => {
             position: 'relative',
             fontSize: `${fontSize / 2}rem`,
             [bp.median]: {
-                fontSize: `${fontSize}rem`,
+                fontSize: `${fontSize * 1.5}rem`,
             },
         },
         overlay: {

@@ -31,6 +31,10 @@ const stylesFactory = memoStylesFactory((theme) => {
 
         name: {
             position: 'relative',
+            paddingRight: '1rem',
+            [bp.median]: {
+                paddingRight: '1rem',
+            },
             '&::after': {
                 content: '""',
                 position: 'absolute',
