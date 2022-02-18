@@ -12,25 +12,45 @@ const stylesFactory = memoStylesFactory((theme) => {
             const box = (fontSize) => ({
                 bottom: `${fontSize}rem`,
                 right: `${fontSize}rem`,
-                fontSize: `${fontSize}rem`,
-                borderRadius: `${fontSize}rem`,
-                height: `${fontSize * 1.2}rem`,
-                width: `${fontSize * 1.2}rem`,
+                width: `${fontSize}rem`,
+                height: `${fontSize}rem`,
             })
+            const line = {
+                position: 'absolute',
+                left: '50%',
+                top: '50%',
+                transform: 'translate(-50%, -50%)',
+                borderRadius: '0.5rem',
+                backgroundColor: textColorDark(0.75),
+                width: '50%',
+                height: '0.5rem',
+            }
             return {
                 position: 'absolute',
+                padding: 0,
+                borderRadius: `50%`,
                 ...box(fontSize),
                 backgroundColor: bgColorLight(1),
                 color: textColorDark(0.5),
                 [bp.median]: {
                     ...box(fontSize * 4),
                 },
+                '&::after': {
+                    content: '""',
+                    ...line,
+                },
+                '&::before': {
+                    content: '""',
+                    ...line,
+                    height: '50%',
+                    width: '0.5rem',
+                },
             }
         },
     }
 })
 
-const AddButton = ({ onClick, text = '+' }) => {
+const AddButton = ({ onClick }) => {
     const theme = useTheme()
     const styles = stylesFactory(theme)
     const [isHovered, setHovered] = useState(false)
@@ -47,9 +67,7 @@ const AddButton = ({ onClick, text = '+' }) => {
             transition={{ duration: 0.3, ease: [0.25, 0.8, 0.25, 1] }}
             onHoverStart={() => setHovered(true)}
             onHoverEnd={() => setHovered(false)}
-            animate={animate}>
-            {text}
-        </motion.button>
+            animate={animate}></motion.button>
     )
 }
 
