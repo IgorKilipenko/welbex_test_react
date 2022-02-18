@@ -1,33 +1,26 @@
 import { useTheme } from '@emotion/react'
-import { memoStylesFactory } from '@Styles'
+import { memoStylesFactory, styleUtils } from '@Styles'
+import { ImageParallax } from '@Components/view'
+import TextContent from './text_content'
 
 const stylesFactory = memoStylesFactory((theme) => {
     const { bp, fontHeaderSize, fontMainSize } = theme
+    const {fullSize} = styleUtils
     return {
         container: {
+            position: 'relative',
+            ...fullSize,
             display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            width: '100%',
-            margin: '0 2rem',
-            justifyContent: 'center',
-            [bp.median]: {
-                width: 'auto',
-                alignItems: 'flex-start',
-                justifyContent: 'center',
-            },
         },
-        header: {
-            fontSize: `${fontHeaderSize / 4}rem`,
-            fontWeight: 'bold',
-            [bp.median]: {
-                fontSize: `${fontHeaderSize}rem`,
-            },
-        },
-        text: {
-            fontSize: `${fontMainSize / 3}rem`,
-            [bp.median]: {
-                fontSize: `${fontHeaderSize}rem`,
+        contentContainer: {
+            position: 'absolute',
+            ...fullSize,
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'flex-end',
+            padding: '3rem',
+            [bp.median.cssTag]: {
+                padding: '8rem',
             },
         },
     }
@@ -37,10 +30,17 @@ const HomeComponent = () => {
     const theme = useTheme()
     const styles = stylesFactory(theme)
     return (
-        <div css={styles.container}>
-            <div css={styles.header}>Тестовое задание React</div>
-            <div css={styles.text}>выполнил: Килипенко Игорь</div>
-        </div>
+        <div
+        css={styles.container}>
+        <ImageParallax
+            imagesSrc={[
+                '/images/hero-parallax-3.jpg',
+                '/images/hero-parallax-2.png',
+                '/images/hero-parallax-1.png',
+            ]}
+        />
+        <TextContent styles={styles} />
+    </div>
     )
 }
 

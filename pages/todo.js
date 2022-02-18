@@ -7,14 +7,18 @@ import { useCallback, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
 const stylesFactory = memoStylesFactory((theme) => {
-    const { bp } = theme
+    const { bp, appBarHeight } = theme
     return {
         container: {
+            paddingTop: `${appBarHeight / 2 + 1}rem`,
             position: 'relative',
             display: 'flex',
             flexDirection: 'row',
             justifyContent: 'center',
             ...styleUtils.fullSize,
+            [bp.median]: {
+                paddingTop: `${appBarHeight + 3}rem`,
+            },
         },
     }
 })
@@ -35,12 +39,12 @@ const TodoPage = (/*props*/) => {
                 console.error('error', `Update failed: ${resultAction.error}`)
             }
         }
-    },[dispatch])
+    }, [dispatch])
 
     useEffect(() => {
         update().catch(console.error)
-    },[update])
-    
+    }, [update])
+
     return (
         <>
             <Head>

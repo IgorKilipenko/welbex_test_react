@@ -32,6 +32,7 @@ const theme = () => {
         get fontMainSize() {
             return this.fontHeaderSize * 0.5
         },
+        appBarHeight: 13
     }
 }
 
