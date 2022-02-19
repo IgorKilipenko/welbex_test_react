@@ -1,10 +1,10 @@
 import NavItem from './nav_item'
-import { useTheme, List } from '@chakra-ui/react'
+import { useTheme, VStack } from '@chakra-ui/react'
 
 const NavList = ({ reverse = true, controls }) => {
     const theme = useTheme()
     return (
-        <List>
+        <VStack  alignItems={'left'} spacing={'2rem'}>
             {['Home', 'Todo'].map((text, i, arr) => {
                 return (
                     <NavItem
@@ -18,7 +18,7 @@ const NavList = ({ reverse = true, controls }) => {
                     />
                 )
             })}
-        </List>
+        </VStack>
     )
 }
 
