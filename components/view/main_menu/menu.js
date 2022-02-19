@@ -1,10 +1,11 @@
 import { motion, useAnimation } from 'framer-motion'
 import { useMainMenuState } from '@Store'
-import { useTheme } from '@chakra-ui/react'
+import { useBreakpointValue, useTheme, Box, Flex } from '@chakra-ui/react'
 import { memoStylesFactory, styleUtils } from '@Styles'
 import { useEffect, useCallback, useRef } from 'react'
 import NavContainer, { NavList } from './nav'
 import variantKeys from './variant_keys'
+import { MotionBox } from '../motion'
 
 const stylesFactory = memoStylesFactory((theme) => {
     const { bgColorDark, zIndex, bp } = theme
@@ -17,12 +18,12 @@ const stylesFactory = memoStylesFactory((theme) => {
             right: 0,
             left: 0,
             zIndex: zIndex.overlay,
-            overflowY: 'scroll',
+            //overflowY: 'scroll',
             /*[bp.median]: {
                 overflow: 'hidden',
             },*/
         },
-        get table() {
+        get __table() {
             const padding = 13
             return {
                 display: 'flex',
@@ -73,7 +74,10 @@ const MenuOverlay = (/*props*/) => {
     const isOpened = useMainMenuState('isOpened')
     const theme = useTheme()
     const styles = stylesFactory(theme.oldTheme)
-
+    const bpCss = useBreakpointValue({
+        base: { overflow: 'auto' },
+        sm: { overflow: 'hidden' },
+    }, )
     const menuControls = useAnimation()
     const navListControls = useAnimation()
     const isInitial = useRef(false)
@@ -108,19 +112,27 @@ const MenuOverlay = (/*props*/) => {
     }, [sequence, isOpened, menuControls, navListControls])
 
     return (
-        <motion.aside
-            css={styles.container}
+        <MotionBox
+            as="aside"
+            overflowY={bpCss?.overflow}
+            css={[styles.container]}
             variants={variants}
             animate={menuControls}>
-            <div css={styles.table}>
+            <Flex
+                direction="column"
+                justify="center"
+                pl="xl"
+                pr="xl"
+                //css={styles.table}
+            >
                 <NavContainer>
                     <NavList
                         reverse={false}
                         {...{ controls: navListControls }}
                     />
                 </NavContainer>
-            </div>
-        </motion.aside>
+            </Flex>
+        </MotionBox>
     )
 }
 
