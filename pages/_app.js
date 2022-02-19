@@ -6,13 +6,14 @@ import { Layout } from '@Components/view'
 import themeFactory from '@Components/theme'
 import { useMemo } from 'react'
 import Head from 'next/head'
+import { ChakraProvider } from '@chakra-ui/react'
 
 const store = configureAppStore({
     theme: { darkTheme: false },
     components: {
         componentsState: { test: 'test1' },
     },
-    todos: {}
+    todos: {},
 })
 
 const theme = themeFactory()
@@ -32,9 +33,11 @@ const App = ({ Component, pageProps }) => {
             <Provider store={store}>
                 <Global styles={styles} />
                 <ThemeProvider theme={theme}>
-                    <Layout>
-                        <Component {...pageProps} />
-                    </Layout>
+                    <ChakraProvider>
+                        <Layout>
+                            <Component {...pageProps} />
+                        </Layout>
+                    </ChakraProvider>
                 </ThemeProvider>
             </Provider>
         </>

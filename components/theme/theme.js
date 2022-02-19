@@ -1,3 +1,6 @@
+import { extendTheme, withDefaultColorScheme } from '@chakra-ui/react'
+
+
 const theme = () => {
     const bgOpacity = 1
     const textOpacity = 1
@@ -36,4 +39,7 @@ const theme = () => {
     }
 }
 
+const customTheme = extendTheme(withDefaultColorScheme({ colorScheme: 'red' }))
+
 export default theme
+export {customTheme}
