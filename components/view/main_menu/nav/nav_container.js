@@ -21,7 +21,7 @@ const stylesFactory = memoStylesFactory((theme) => {
 const NavContainer = ({ children }) => {
     const theme = useTheme()
     const styles = stylesFactory(theme.oldTheme)
-    return <Flex direction="row" style={styles.container}align="end" wrap='wrap' justify='space-between' h='100vh' as={'nav'} color={'gray.50'} /*css={styles.container}*/ {...{ children }} />
+    return <Flex direction="row" style={styles.container} align="end" wrap='wrap' justify='space-between' h='100vh' as={'nav'} color={'gray.50'} /*css={styles.container}*/ {...{ children }} />
 }
 
 export default NavContainer
