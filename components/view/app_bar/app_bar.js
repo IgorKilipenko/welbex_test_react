@@ -1,11 +1,11 @@
 import { ToggleButton } from '../buttons'
 import { memoStylesFactory, styleUtils } from '@Styles'
-import { useTheme } from '@emotion/react'
 import LogoImage from './logo_image'
+import { useTheme } from '@chakra-ui/react'
 
 const stylesFactory = memoStylesFactory((theme) => {
-    const { bgColor, textColor, zIndex, bp } = theme
-    const height = 13
+    const { bgColor, textColor, zIndex, bp, appBarHeight } = theme
+    const height = appBarHeight
 
     return {
         container: {
@@ -20,21 +20,21 @@ const stylesFactory = memoStylesFactory((theme) => {
             height: `${height / 2}rem`,
             color: textColor(),
             zIndex: zIndex.overlay + 1,
-            [bp.median]: {
+           /*[bp.median]: {
                 minHeight: `${height}rem`,
                 height: `${height}rem`,
-            },
+            },*/
         },
         get logo() {
-            const width = 25
+            const width = height * 2
             return {
                 position: 'relative',
                 minWidth: `${width / 2}rem`,
                 height: '100%',
                 backgroundColor: bgColor(),
-                [bp.median]: {
+                /*[bp.median]: {
                     minWidth: `${width}rem`,
-                },
+                },*/
                 '&::after': {
                     content: '""',
                     position: 'absolute',
@@ -48,18 +48,18 @@ const stylesFactory = memoStylesFactory((theme) => {
         },
         imgContainer: {
             position: 'relative',
-            padding: '1rem',
+            padding: `${height/10}rem`,
             ...styleUtils.fullSize,
-            [bp.median]: {
-                padding: '3rem',
-            },
+            /*[bp.median]: {
+                padding: `${height/5}rem`,
+            },*/
         },
     }
 })
 
 const AppBar = () => {
     const theme = useTheme()
-    const styles = stylesFactory(theme)
+    const styles = stylesFactory(theme.oldTheme)
     return (
         <div css={styles.container}>
             <div css={styles.logo}>

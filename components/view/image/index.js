@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { memoStylesFactory, styleUtils } from '@Styles'
-import { useTheme } from '@emotion/react'
+import { useTheme } from '@chakra-ui/react'
 
 
 const stylesFactory = memoStylesFactory((theme) => {
@@ -27,7 +27,7 @@ const WrappedImage = (props) => {
     } = props
 
     const theme = useTheme()
-    const styles = stylesFactory(theme)
+    const styles = stylesFactory(theme.oldTheme)
 
     return (
         <motion.div style={style} {...{ className, css }}>

@@ -3,7 +3,7 @@ import { global_css as globalStylesFactory } from '@Styles'
 import { Provider } from 'react-redux'
 import configureAppStore from '@Store'
 import { Layout } from '@Components/view'
-import themeFactory from '@Components/theme'
+import themeFactory, { customTheme } from '@Components/theme'
 import { useMemo } from 'react'
 import Head from 'next/head'
 import { ChakraProvider } from '@chakra-ui/react'
@@ -16,11 +16,11 @@ const store = configureAppStore({
     todos: {},
 })
 
-const theme = themeFactory()
+//const theme = themeFactory()
 
 const App = ({ Component, pageProps }) => {
     const styles = useMemo(() => {
-        return globalStylesFactory(theme)
+        return globalStylesFactory(customTheme.oldTheme)
     }, [])
     return (
         <>
@@ -32,13 +32,11 @@ const App = ({ Component, pageProps }) => {
             </Head>
             <Provider store={store}>
                 <Global styles={styles} />
-                <ThemeProvider theme={theme}>
-                    <ChakraProvider>
-                        <Layout>
-                            <Component {...pageProps} />
-                        </Layout>
-                    </ChakraProvider>
-                </ThemeProvider>
+                <ChakraProvider theme={customTheme}>
+                    <Layout>
+                        <Component {...pageProps} />
+                    </Layout>
+                </ChakraProvider>
             </Provider>
         </>
     )

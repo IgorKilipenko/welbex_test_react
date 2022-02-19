@@ -1,6 +1,6 @@
 import { motion, useAnimation } from 'framer-motion'
 import { useMainMenuState } from '@Store'
-import { useTheme } from '@emotion/react'
+import { useTheme } from '@chakra-ui/react'
 import { memoStylesFactory, styleUtils } from '@Styles'
 import { useEffect, useCallback, useRef } from 'react'
 import NavContainer, { NavList } from './nav'
@@ -18,9 +18,9 @@ const stylesFactory = memoStylesFactory((theme) => {
             left: 0,
             zIndex: zIndex.overlay,
             overflowY: 'scroll',
-            [bp.median]: {
+            /*[bp.median]: {
                 overflow: 'hidden',
-            },
+            },*/
         },
         get table() {
             const padding = 13
@@ -31,10 +31,10 @@ const stylesFactory = memoStylesFactory((theme) => {
                 ...styleUtils.fullSize,
                 paddingLeft: `${padding / 2}rem`,
                 paddingRight: `${padding / 2}rem`,
-                [bp.median]: {
+                /*[bp.median]: {
                     paddingLeft: `${padding}rem`,
                     paddingRight: `${padding}rem`,
-                },
+                },*/
             }
         },
     }
@@ -72,7 +72,7 @@ const variants = {
 const MenuOverlay = (/*props*/) => {
     const isOpened = useMainMenuState('isOpened')
     const theme = useTheme()
-    const styles = stylesFactory(theme)
+    const styles = stylesFactory(theme.oldTheme)
 
     const menuControls = useAnimation()
     const navListControls = useAnimation()

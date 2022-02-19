@@ -5,7 +5,7 @@ import { useEffect } from 'react'
 import { useMainComponentMousePosition } from '@Store'
 import { useTransition } from 'hooks'
 import { memoStylesFactory, styleUtils } from '@Styles'
-import { useTheme } from '@emotion/react'
+import { useTheme } from '@chakra-ui/react'
 
 const stylesFactory = memoStylesFactory((theme) => {
     const { fullSize } = styleUtils
@@ -27,7 +27,7 @@ const stylesFactory = memoStylesFactory((theme) => {
 
 const ImageItem = ({ index, x, y, scale, src, itemCount }) => {
     const theme = useTheme()
-    const styles = stylesFactory(theme)
+    const styles = stylesFactory(theme.oldTheme)
     const translateX = useTransform(x, (val) => ((index + 1) / itemCount) * val)
     const translateY = useTransform(y, (val) => ((index + 1) / itemCount) * val)
     return (
@@ -49,7 +49,7 @@ const ImageItem = ({ index, x, y, scale, src, itemCount }) => {
 
 const ImageParallax = (props) => {
     const theme = useTheme()
-    const styles = stylesFactory(theme)
+    const styles = stylesFactory(theme.oldTheme)
     const { imagesSrc, ...restProps } = props
     const mouseState = useMainComponentMousePosition()
     const [ref, size] = useMeasure()

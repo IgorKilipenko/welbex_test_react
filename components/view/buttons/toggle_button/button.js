@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
-import { useTheme } from '@emotion/react'
+import { useTheme } from '@chakra-ui/react'
 import { motion } from 'framer-motion'
 import Lines from './lines'
 import { useDispatch, useSelector } from 'react-redux'
@@ -7,8 +7,8 @@ import { actions as storeActions } from '@Components/store'
 import { useRouter } from 'next/router'
 
 const stylesFactory = (theme) => {
-    const { absoluteCenter, bgColorLight, bp } = theme
-    const width = 13
+    const { absoluteCenter, bgColorLight, bp, appBarHeight } = theme
+    const width = appBarHeight //13
 
     return {
         button: {
@@ -21,17 +21,17 @@ const stylesFactory = (theme) => {
             justifyContent: 'center',
             width: `${width / 2}rem`,
             height: '100%',
-            [bp.median]: {
+            /*[bp.median]: {
                 width: `${width}rem`,
-            },
+            },*/
         },
         lines: {
             ...absoluteCenter,
-            width: '4rem',
+            width: `${width / 4}rem`,
             height: '100%',
-            '@media (min-width: 769px)': {
-                width: '7rem',
-            },
+            /*[bp.median]: {
+                width: `${width / 2}rem`,
+            },*/
         },
     }
 }
@@ -43,7 +43,7 @@ const Button = (/*props*/) => {
     const theme = useTheme()
     const router = useRouter()
 
-    const { button: buttonStyles, lines: linesStyles } = stylesFactory(theme)
+    const { button: buttonStyles, lines: linesStyles } = stylesFactory(theme.oldTheme)
 
     const handleClick = useCallback((_, forceValue = null) => {
         dispatch(

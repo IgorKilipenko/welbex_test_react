@@ -1,9 +1,9 @@
 import { AppBar, MenuOverlay } from '@Components/view'
-import { useTheme } from '@emotion/react'
 import { memoStylesFactory, styleUtils } from '@Styles'
 import { useDispatch } from 'react-redux'
 import { actions as storeActions, useMainComponentMousePosition } from '@Store'
 import { useEffect, useRef } from 'react'
+import { Box, useTheme } from '@chakra-ui/react'
 
 const stylesFactory = memoStylesFactory((/*theme*/) => {
     const { fullSize } = styleUtils
@@ -28,7 +28,7 @@ const stylesFactory = memoStylesFactory((/*theme*/) => {
 const Layout = (props) => {
     const { children } = props
     const theme = useTheme()
-    const styles = stylesFactory(theme)
+    const styles = stylesFactory(theme.oldTheme)
     const mousePosition = useMainComponentMousePosition()
     const dispatch = useDispatch()
     const timer = useRef(0)
@@ -68,19 +68,18 @@ const Layout = (props) => {
             })
         )
     }
-
     return (
-        <div css={styles.container}>
+        <Box fontSize={theme.fontSizes.md} css={styles.container}>
             <AppBar />
             <MenuOverlay />
-            <main
+            <Box as="main"
                 css={styles.page}
                 onMouseMove={(e) => hadleMouseMove(e)}
                 onMouseEnter={() => handleHover(true)}
                 onMouseLeave={() => handleHover(true)}>
                 {children}
-            </main>
-        </div>
+            </Box>
+        </Box>
     )
 }
 

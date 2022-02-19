@@ -1,7 +1,7 @@
 import { cssToArray } from '@Utils'
 import { motion } from 'framer-motion'
 import { useState } from 'react'
-import { useTheme } from '@emotion/react'
+import { useTheme } from '@chakra-ui/react'
 import { memoStylesFactory } from '@Styles'
 import PropTypes from 'prop-types'
 import { useRouter } from 'next/router'
@@ -13,9 +13,9 @@ const stylesFactory = memoStylesFactory((theme) => {
         container: {
             position: 'relative',
             fontSize: `${fontSize / 2}rem`,
-            [bp.median]: {
+            /*[bp.median]: {
                 fontSize: `${fontSize * 1.5}rem`,
-            },
+            },*/
         },
         overlay: {
             position: 'absolute',
@@ -38,7 +38,7 @@ const ButtonBase = ({
     ...restProps
 }) => {
     const theme = useTheme()
-    const styles = stylesFactory(theme)
+    const styles = stylesFactory(theme.oldTheme)
     const router = useRouter()
     const [isHovered, setHovered] = useState(false)
     const animate = {

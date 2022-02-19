@@ -1,5 +1,5 @@
 import { memoStylesFactory, styleUtils } from '@Styles'
-import { useTheme } from '@emotion/react'
+import { useTheme } from '@chakra-ui/react'
 
 const stylesFactory = memoStylesFactory((theme) => {
     const { fullSize } = styleUtils
@@ -13,9 +13,9 @@ const stylesFactory = memoStylesFactory((theme) => {
             flexDirection: 'row',
             alignItems: 'flex-end',
             padding: '3rem',
-            [bp.median]: {
+            /*[bp.median]: {
                 padding: '8rem',
-            },
+            },*/
         },
         content: {
             display: 'flex',
@@ -28,16 +28,16 @@ const stylesFactory = memoStylesFactory((theme) => {
             fontFamily: 'domaine',
             fontSize: `${fontSize / 2}rem`,
             lineHeight: 1.1,
-            [bp.median]: {
+            /*[bp.median]: {
                 fontSize: `${fontSize}rem`,
-            },
+            },*/
         },
         get h2() {
             return {
                 fontSize: `${fontSize/4}rem`,
-                [bp.median]: {
+                /*[bp.median]: {
                     fontSize: `${fontSize/2}rem`,
-                },
+                },*/
             }
         },
     }
@@ -45,7 +45,7 @@ const stylesFactory = memoStylesFactory((theme) => {
 
 const TextContent = () => {
     const theme = useTheme()
-    const styles = stylesFactory(theme)
+    const styles = stylesFactory(theme.oldTheme)
     return (
         <div css={styles.container}>
             <div css={styles.content}>

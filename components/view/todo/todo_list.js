@@ -1,4 +1,4 @@
-import { useTheme } from '@emotion/react'
+import { useTheme } from '@chakra-ui/react'
 import { useTodoState } from '@Store'
 import { memoStylesFactory, styleUtils } from '@Styles'
 import { useRef, useState, useMemo, useCallback, useEffect } from 'react'
@@ -44,16 +44,16 @@ const stylesFactory = memoStylesFactory((theme) => {
             justifyContent: 'flex-start',
             alignItems: 'center',
             width: '100%',
-            [bp.median]: {
+            /**[bp.median]: {
                 fontSize: `${fontSize}rem`,
-            },
+            },*/
         },
         scrollContainer: {
             position: 'relative',
             marginTop: '1rem',
-            [bp.median]: {
+            /**[bp.median]: {
                 marginTop: '3rem',
-            },
+            },*/
         },
         list: {
             overflow: 'hidden',
@@ -100,12 +100,12 @@ const stylesFactory = memoStylesFactory((theme) => {
                 color: textColorDark(0.5),
                 boxShadow: boxShadow(false),
                 transition: 'box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25,1)',
-                [bp.median]: {
+                /**[bp.median]: {
                     ...box(fontSize * 4),
                 },
                 '&:hover': {
                     boxShadow: boxShadow(true),
-                },
+                },*/
             }
         },
 
@@ -114,17 +114,17 @@ const stylesFactory = memoStylesFactory((theme) => {
             textDecoration: 'uppercase',
             margin: '0.5rem auto 0 5%',
             fontSize: '3rem',
-            [bp.median]: {
+            /**[bp.median]: {
                 margin: '1rem auto 0 20%',
                 fontSize: '7rem',
-            },
+            },*/
         },
     }
 })
 
 const TodoList = () => {
     const theme = useTheme()
-    const styles = stylesFactory(theme)
+    const styles = stylesFactory(theme.oldTheme)
     const [currentPage, setCurrentPage] = useState(1)
     const todos = useTodoState()
     const pageSize = 5

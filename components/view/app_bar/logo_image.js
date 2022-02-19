@@ -1,4 +1,4 @@
-import { useTheme } from '@emotion/react'
+import { useTheme } from '@chakra-ui/react'
 import { memoStylesFactory, styleUtils } from '@Styles'
 
 const cssToArray = (css) => {
@@ -28,7 +28,7 @@ const stylesFactory = memoStylesFactory((theme) => {
 
 const LogoImage = ({ stroke, css: overrideCss, ...resetProps }) => {
     const theme = useTheme()
-    const styles = stylesFactory(theme)
+    const styles = stylesFactory(theme.oldTheme)
     return (
         <div
             css={[...cssToArray(styles.container), ...cssToArray(overrideCss)]}

@@ -1,4 +1,13 @@
-import { useTheme } from '@emotion/react'
+import {
+    useTheme,
+    ListItem,
+    Box,
+    Link,
+    HStack,
+    VStack,
+    Text,
+    Heading,
+} from '@chakra-ui/react'
 import { memoStylesFactory } from '@Styles'
 import { motion } from 'framer-motion'
 import variantKeys from '../variant_keys'
@@ -9,9 +18,9 @@ const stylesFactory = memoStylesFactory((theme) => {
     const { textColor, bp, fontMainSize } = theme
     const fontSize = fontMainSize
     return {
-        container: {
+        /*container: {
             color: textColor(1),
-        },
+        },*/
         animatedElement: {
             position: 'relative',
             display: 'flex',
@@ -19,34 +28,34 @@ const stylesFactory = memoStylesFactory((theme) => {
             overflow: 'hidden',
             alignItems: 'center',
         },
-        link: {
-            position: 'relative',
+        ____link: {
+            /**position: 'relative',
             overflow: 'hidden',
             display: 'block',
             lineHeight: 1.1,
-            padding: '1rem 0',
-            [bp.median]: {
+            padding: '1rem 0',**/
+            /*[bp.median]: {
                 padding: '1.5rem 0',
-            },
+            },*/
         },
         number: {
             position: 'relative',
             opacity: 0.75,
             fontSize: `${fontSize / 2}rem`,
             width: `${fontSize}rem`,
-            [bp.median]: {
+            /*[bp.median]: {
                 fontSize: `${fontSize}rem`,
                 width: `${fontSize * 2}rem`,
-            },
+            },*/
         },
-        text: {
+        ____text: {
             position: 'relative',
             fontSize: `${fontSize}rem`,
             cursor: 'pointer',
             display: 'inline-block',
-            [bp.median]: {
+            /**[bp.median]: {
                 fontSize: `${fontSize * 2}rem`,
-            },
+            },*/
             '&::after': {
                 content: '""',
                 position: 'absolute',
@@ -61,7 +70,6 @@ const stylesFactory = memoStylesFactory((theme) => {
                 transition: 'all .75s cubic-bezier(0.165, 0.84, 0.44, 1)',
             },
             '&:hover::after': {
-                //transformOrigin: 'left',
                 transform: 'scaleX(1)',
             },
         },
@@ -119,7 +127,7 @@ const NavItem = ({
     href = '/',
 }) => {
     const theme = useTheme()
-    const styles = stylesFactory(theme)
+    const styles = stylesFactory(theme.oldTheme)
     const delay = useMemo(() => 0 + itemIndex * 0.05, [itemIndex])
     const variants = useMemo(() => variantsFactory(reverse), [reverse])
     const router = useRouter()
@@ -132,19 +140,27 @@ const NavItem = ({
     }
 
     return (
-        <li css={styles.container}>
-            <a css={styles.link}>
+        <ListItem /*css={styles.container}*/ color={'gray.50'}>
+            <Box>
                 <motion.div
                     onClick={(e) => handleClick(e)}
                     animate={controls}
                     variants={variants}
                     custom={delay}
                     css={styles.animatedElement}>
-                    <span css={styles.number}>{number}</span>
-                    <span css={styles.text}>{text}</span>
+                    <HStack space={2}>
+                        <Text fontSize={'md'} /*css={styles.number}*/>
+                            {number}
+                        </Text>
+                        <Link>
+                            <Heading size={'2xl'} /*css={styles.text}*/>
+                                {text}
+                            </Heading>
+                        </Link>
+                    </HStack>
                 </motion.div>
-            </a>
-        </li>
+            </Box>
+        </ListItem>
     )
 }
 

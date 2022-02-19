@@ -1,4 +1,4 @@
-import { useTheme } from '@emotion/react'
+import { useTheme } from '@chakra-ui/react'
 import { memoStylesFactory } from '@Styles'
 import { cssToArray } from '@Utils'
 import { useState, useEffect, useRef } from 'react'
@@ -23,7 +23,7 @@ const Editable = ({
     ...props
 }) => {
     const theme = useTheme()
-    const styles = stylesFactory(theme)
+    const styles = stylesFactory(theme.oldTheme)
     const [isEditing, setEditing] = useState(false)
     const [value, setValue] = useState(text)
     const childRef = useRef()

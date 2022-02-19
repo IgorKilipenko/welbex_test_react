@@ -1,4 +1,4 @@
-import { useTheme } from '@emotion/react'
+import { useTheme } from '@chakra-ui/react'
 import { memoStylesFactory, styleUtils } from '@Styles'
 import Head from 'next/head'
 import TodoComponent from '@Components/view/todo'
@@ -16,16 +16,16 @@ const stylesFactory = memoStylesFactory((theme) => {
             flexDirection: 'row',
             justifyContent: 'center',
             ...styleUtils.fullSize,
-            [bp.median]: {
+            /**[bp.median]: {
                 paddingTop: `${appBarHeight + 3}rem`,
-            },
+            },*/
         },
     }
 })
 
 const TodoPage = (/*props*/) => {
     const theme = useTheme()
-    const styles = stylesFactory(theme)
+    const styles = stylesFactory(theme.oldTheme)
     const dispatch = useDispatch()
 
     const update = useCallback(async () => {

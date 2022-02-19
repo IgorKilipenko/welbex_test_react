@@ -1,6 +1,5 @@
 import { extendTheme, withDefaultColorScheme } from '@chakra-ui/react'
 
-
 const theme = () => {
     const bgOpacity = 1
     const textOpacity = 1
@@ -28,18 +27,26 @@ const theme = () => {
                     : `0 2px 6px ${color(0.25)}, 0 4px 4px ${color(0.22)}`
             }
         },
-        fontHeaderSize: 10,
+        fontHeaderSize: 5,
         get fontSubHeaderSize() {
             return this.fontHeaderSize * 0.7
         },
         get fontMainSize() {
             return this.fontHeaderSize * 0.5
         },
-        appBarHeight: 13
+        appBarHeight: 10,
     }
 }
 
-const customTheme = extendTheme(withDefaultColorScheme({ colorScheme: 'red' }))
-
+//const customTheme = extendTheme({oldTheme: theme()}, withDefaultColorScheme({ colorScheme: 'green' /*gray*/ }))
+const customTheme = extendTheme(
+    {
+        oldTheme: theme(),
+        config: {
+            cssVarPrefix: 'ck',
+        },
+    },
+    withDefaultColorScheme({ colorScheme: 'green' /*gray*/ })
+)
 export default theme
-export {customTheme}
+export { customTheme }

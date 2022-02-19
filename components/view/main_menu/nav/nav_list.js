@@ -1,27 +1,10 @@
 import NavItem from './nav_item'
-import { useTheme } from '@emotion/react'
-import { memoStylesFactory } from '@Styles'
-
-const stylesFactory = memoStylesFactory((theme) => {
-    const { bp } = theme
-    return {
-        container: {
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'flex-start',
-            width: '100%',
-            [bp.median]: {
-                width: 'auto',
-            },
-        },
-    }
-})
+import { useTheme, List } from '@chakra-ui/react'
 
 const NavList = ({ reverse = true, controls }) => {
     const theme = useTheme()
-    const styles = stylesFactory(theme)
     return (
-        <ul css={styles.container}>
+        <List>
             {['Home', 'Todo'].map((text, i, arr) => {
                 return (
                     <NavItem
@@ -35,7 +18,7 @@ const NavList = ({ reverse = true, controls }) => {
                     />
                 )
             })}
-        </ul>
+        </List>
     )
 }
 

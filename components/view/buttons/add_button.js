@@ -1,4 +1,4 @@
-import { useTheme } from '@emotion/react'
+import { useTheme } from '@chakra-ui/react'
 import { memoStylesFactory } from '@Styles'
 import { motion } from 'framer-motion'
 import { useState } from 'react'
@@ -33,9 +33,9 @@ const stylesFactory = memoStylesFactory((theme) => {
                 backgroundColor: bgColorLight(1),
                 color: textColorDark(0.5),
                 bottom: `${fontSize}rem`,
-                [bp.median]: {
+                /*[bp.median]: {
                     ...box(fontSize * 4),
-                },
+                },*/
                 '&::after': {
                     content: '""',
                     ...line,
@@ -53,10 +53,10 @@ const stylesFactory = memoStylesFactory((theme) => {
 
 const AddButton = ({ onClick }) => {
     const theme = useTheme()
-    const styles = stylesFactory(theme)
+    const styles = stylesFactory(theme.oldTheme)
     const [isHovered, setHovered] = useState(false)
     const animate = {
-        boxShadow: isHovered ? theme.boxShadow(true) : theme.boxShadow(false),
+        boxShadow: isHovered ? theme.oldTheme.boxShadow(true) : theme.oldTheme.boxShadow(false),
     }
     return (
         <motion.button

@@ -1,12 +1,13 @@
-import { useTheme } from '@emotion/react'
+import { useTheme } from '@chakra-ui/react'
 import { memoStylesFactory } from '@Styles'
 import { cssToArray } from '@Utils'
-import { Button } from '@Components/view/buttons'
+//import { Button } from '@Components/view/buttons'
 import { useDispatch } from 'react-redux'
 import { actions } from '@Store'
 import Editable from '@Components/view/editable'
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import { motion } from 'framer-motion'
+import { Box, Button } from '@chakra-ui/react'
 
 const {
     todos: { todoRemove, todoUpdate },
@@ -17,9 +18,9 @@ const stylesFactory = memoStylesFactory((theme) => {
     return {
         container: {
             padding: '1rem',
-            [bp.median]: {
+            /**[bp.median]: {
                 padding: '2rem',
-            },
+            },*/
         },
         gride: {
             display: 'grid',
@@ -30,18 +31,18 @@ const stylesFactory = memoStylesFactory((theme) => {
             gridTemplateColumns: '1fr 2fr',
             columnGap: '1rem',
             position: 'relative',
-            [bp.median]: {
+            /**[bp.median]: {
                 gridTemplateColumns: '1fr 3fr',
                 columnGap: '3rem',
-            },
+            },*/
         },
 
         name: {
             position: 'relative',
             paddingRight: '1rem',
-            [bp.median]: {
+            /**[bp.median]: {
                 paddingRight: '1rem',
-            },
+            },*/
             '&::after': {
                 content: '""',
                 position: 'absolute',
@@ -72,7 +73,7 @@ const stylesFactory = memoStylesFactory((theme) => {
 
 const TodoItem = ({ entries = [], todoId, css: overrideCss, ...restProps }) => {
     const theme = useTheme()
-    const styles = stylesFactory(theme)
+    const styles = stylesFactory(theme.oldTheme)
     const dispatch = useDispatch()
     //const editedTodo = useRef(null)
     const [editedTodo, setEditedTodo] = useState(null)
@@ -106,7 +107,7 @@ const TodoItem = ({ entries = [], todoId, css: overrideCss, ...restProps }) => {
         return res
     }, [])
     return (
-        <div css={styles.container}>
+        <Box css={styles.container}>
             <motion.div
                 css={[styles.gride, ...cssToArray(overrideCss)]}
                 initial={{ opacity: 0 }}
@@ -114,9 +115,9 @@ const TodoItem = ({ entries = [], todoId, css: overrideCss, ...restProps }) => {
                 viewport={{ once: false, amount: 0.5 }}
                 transition={{ duration: 0.5, ease: 'easeInOut' }}
                 {...restProps}>
-                <div css={styles.contentGride}>{columns}</div>
-                <div css={styles.controlsContainer}>
-                    <div>
+                <Box css={styles.contentGride}>{columns}</Box>
+                <Box css={styles.controlsContainer}>
+                    <Box>
                         <Button
                             onClick={() => {
                                 const id = todoId
@@ -124,10 +125,10 @@ const TodoItem = ({ entries = [], todoId, css: overrideCss, ...restProps }) => {
                             }}>
                             delete
                         </Button>
-                    </div>
-                    <div>
+                    </Box>
+                    <Box>
                         {editedTodo && (
-                            <Button
+                            <Button w='100%' h={'5rem'}
                                 onClick={() => {
                                     if (
                                         editedTodo != null &&
@@ -141,18 +142,25 @@ const TodoItem = ({ entries = [], todoId, css: overrideCss, ...restProps }) => {
                                                 changes,
                                             })
                                         )
-                                        console.debug('SAVE', editedTodo)
                                         setEditedTodo(null)
                                     }
                                 }}>
                                 save
                             </Button>
                         )}
-                    </div>
-                </div>
+                    </Box>
+                </Box>
             </motion.div>
-        </div>
+        </Box>
     )
 }
 
-export default TodoItem
+const TodoItemWChakra = (props) => {
+    return (
+        <Box>
+            <TodoItem {...props} />
+        </Box>
+    )
+}
+
+export default TodoItemWChakra

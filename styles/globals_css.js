@@ -1,11 +1,11 @@
 const Globals_css = ({ bp }) => {
     return {
         ...restCss,
-        html /*'html, body'*/: {
+        html: {
             padding: '0',
             margin: '0',
-            fontSize: 'calc(10 * (100vw / var(--size)))', //'10px',
-            lineHeight: 1.5,
+            //fontSize: 'calc(10 * (100vw / 1200))', //'calc(10 * (100vw / var(--size)))', //'10px',
+            //lineHeight: 1.5,
             fontFamily:
                 '-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif',
         },
@@ -21,10 +21,11 @@ const Globals_css = ({ bp }) => {
         button: {
             cursor: 'pointer',
         },
-        ':root': { '--size': '375' },
+        //':root': { '--size': '1280' }
+        /*':root': { '--size': '375' },
         [bp.median]: { ':root': { '--size': '1280' } },
         [bp.large]: { ':root': { '--size': '1920' } },
-        [bp.extraLarge]: { ':root': { '--size': '2560' } },
+        [bp.extraLarge]: { ':root': { '--size': '2560' } },*/
     }
 }
 

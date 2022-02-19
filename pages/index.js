@@ -1,4 +1,4 @@
-import { useTheme } from '@emotion/react'
+import { useTheme } from '@chakra-ui/react'
 import { memoStylesFactory, styleUtils } from '@Styles'
 import Head from 'next/head'
 import HomeComponent from '@Components/view/home'
@@ -17,7 +17,7 @@ const stylesFactory = memoStylesFactory((theme) => {
 
 const HomePage = (/*props*/) => {
     const theme = useTheme()
-    const styles = stylesFactory(theme)
+    const styles = stylesFactory(theme.oldTheme)
 
     return (
         <>

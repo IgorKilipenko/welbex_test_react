@@ -1,4 +1,4 @@
-import { useTheme } from '@emotion/react'
+import { useTheme } from '@chakra-ui/react'
 import { memoStylesFactory } from '@Styles'
 
 const stylesFactory = memoStylesFactory((theme) => {
@@ -11,16 +11,16 @@ const stylesFactory = memoStylesFactory((theme) => {
             justifyContent: 'space-between',
             paddingBottom: '4rem',
             width: '100%',
-            [bp.median]: {
+            /*[bp.median]: {
                 paddingBottom: '30rem',
-            },
+            },*/
         },
     }
 })
 
 const NavContainer = ({ children }) => {
     const theme = useTheme()
-    const styles = stylesFactory(theme)
+    const styles = stylesFactory(theme.oldTheme)
     return (
         <nav
             css={styles.container}

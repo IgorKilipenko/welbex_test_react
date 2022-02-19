@@ -1,4 +1,4 @@
-import { useTheme } from '@emotion/react'
+import { useTheme } from '@chakra-ui/react'
 import { usePagination, paginationSplitSymbol } from '@Hooks'
 import { memoStylesFactory } from '@Styles'
 import { cssToArray } from '@Utils'
@@ -79,7 +79,7 @@ const stylesFactory = memoStylesFactory((theme) => {
 
 const Pagination = (props) => {
     const theme = useTheme()
-    const styles = stylesFactory(theme)
+    const styles = stylesFactory(theme.oldTheme)
     const {
         onPageChange,
         onTotalCountChange,
