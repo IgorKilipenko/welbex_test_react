@@ -41,3 +41,4 @@ const App = ({ Component, pageProps }) => {
 }
 
 export default App
+export { getServerSideProps } from '@Components/chakra'
