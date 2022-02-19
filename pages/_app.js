@@ -1,12 +1,12 @@
-import { Global, ThemeProvider } from '@emotion/react'
+import { Global } from '@emotion/react'
 import { global_css as globalStylesFactory } from '@Styles'
 import { Provider } from 'react-redux'
 import configureAppStore from '@Store'
 import { Layout } from '@Components/view'
-import themeFactory, { customTheme } from '@Components/theme'
+import { customTheme } from '@Components/theme'
 import { useMemo } from 'react'
 import Head from 'next/head'
-import { ChakraProvider } from '@chakra-ui/react'
+import { Chakra } from '@Components/chakra'
 
 const store = configureAppStore({
     theme: { darkTheme: false },
@@ -15,8 +15,6 @@ const store = configureAppStore({
     },
     todos: {},
 })
-
-//const theme = themeFactory()
 
 const App = ({ Component, pageProps }) => {
     const styles = useMemo(() => {
@@ -32,11 +30,11 @@ const App = ({ Component, pageProps }) => {
             </Head>
             <Provider store={store}>
                 <Global styles={styles} />
-                <ChakraProvider theme={customTheme}>
+                <Chakra>
                     <Layout>
                         <Component {...pageProps} />
                     </Layout>
-                </ChakraProvider>
+                </Chakra>
             </Provider>
         </>
     )

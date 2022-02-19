@@ -44,6 +44,8 @@ const customTheme = extendTheme(
         oldTheme: theme(),
         config: {
             cssVarPrefix: 'ck',
+            initialColorMode: 'light',
+            useSystemColorMode: false,
         },
     },
     withDefaultColorScheme({ colorScheme: 'green' /*gray*/ })
