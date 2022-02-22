@@ -63,7 +63,7 @@ const stylesFactory = memoStylesFactory((theme) => {
         },
         item: {
             position: 'relative',
-            padding: '0 5%',
+            paddingLeft: '1%',
             [bp.large]: {
                 margin: '0 20%',
             },
