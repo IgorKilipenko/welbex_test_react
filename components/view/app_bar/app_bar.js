@@ -1,7 +1,7 @@
 import { ToggleButton } from '../buttons'
 import { memoStylesFactory, styleUtils } from '@Styles'
 import LogoImage from './logo_image'
-import { useTheme } from '@chakra-ui/react'
+import { useTheme, Box } from '@chakra-ui/react'
 
 const stylesFactory = memoStylesFactory((theme) => {
     const { bgColor, textColor, zIndex, bp, appBarHeight } = theme
@@ -19,8 +19,8 @@ const stylesFactory = memoStylesFactory((theme) => {
             minHeight: `${height / 2}rem`,
             height: `${height / 2}rem`,
             color: textColor(),
-            zIndex: zIndex.overlay + 1,
-           /*[bp.median]: {
+            //zIndex: zIndex.overlay + 1,
+            /*[bp.median]: {
                 minHeight: `${height}rem`,
                 height: `${height}rem`,
             },*/
@@ -48,7 +48,7 @@ const stylesFactory = memoStylesFactory((theme) => {
         },
         imgContainer: {
             position: 'relative',
-            padding: `${height/10}rem`,
+            padding: `${height / 10}rem`,
             ...styleUtils.fullSize,
             /*[bp.median]: {
                 padding: `${height/5}rem`,
@@ -61,15 +61,14 @@ const AppBar = () => {
     const theme = useTheme()
     const styles = stylesFactory(theme.oldTheme)
     return (
-        <div css={styles.container}>
-            <div css={styles.logo}>
-                <LogoImage
-                    css={styles.imgContainer}
-                    alt="logo"
-                />
+        <Box zIndex={'modal'}>
+            <div css={styles.container}>
+                <div css={styles.logo}>
+                    <LogoImage css={styles.imgContainer} alt="logo" />
+                </div>
+                <ToggleButton />
             </div>
-            <ToggleButton />
-        </div>
+        </Box>
     )
 }
 
