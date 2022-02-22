@@ -1,15 +1,9 @@
 import {
-    useTheme,
-    ListItem,
-    Box,
     Link,
     HStack,
-    VStack,
     Text,
     Heading,
-    useBreakpointValue,
 } from '@chakra-ui/react'
-import { motion } from 'framer-motion'
 import variantKeys from '../variant_keys'
 import { useMemo } from 'react'
 import { useRouter } from 'next/router'
@@ -66,7 +60,6 @@ const NavItem = ({
     controls,
     href = '/',
 }) => {
-    const theme = useTheme()
     const delay = useMemo(() => 0 + itemIndex * 0.05, [itemIndex])
     const variants = useMemo(() => variantsFactory(reverse), [reverse])
     const router = useRouter()

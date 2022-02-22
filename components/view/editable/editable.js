@@ -1,39 +1,25 @@
-import { useTheme } from '@chakra-ui/react'
-import { memoStylesFactory } from '@Styles'
-import { cssToArray } from '@Utils'
-import { useState, useEffect, useRef } from 'react'
-
-const stylesFactory = memoStylesFactory((theme) => {
-    const { textColorDark, bp, boxShadow } = theme
-    return {
-        container: {
-            fontSize: 'inherit',
-            backgroundColor: 'inherit',
-        }
-    }
-})
+import { Box, Text } from '@chakra-ui/react'
+import { useState, useEffect, useRef, useCallback } from 'react'
+import InputComponent from './input'
 
 const Editable = ({
     text,
-    type,
+    type = 'input',
     placeholder,
-    children,
-    css:overrideCss,
-    //childRef,
-    ...props
+    onChange,
+    fontSize = 'xl',
+    cleanEdited = false,
 }) => {
-    const theme = useTheme()
-    const styles = stylesFactory(theme.oldTheme)
     const [isEditing, setEditing] = useState(false)
     const [value, setValue] = useState(text)
-    const childRef = useRef()
+    const ref = useRef()
     useEffect(() => {
-        if (childRef && childRef.current && isEditing === true) {
-            childRef.current.focus()
+        if (ref && ref.current && isEditing === true) {
+            ref.current.focus()
         }
-    }, [isEditing, childRef])
+    }, [isEditing, ref])
 
-    const handleKeyDown = (event, type) => {
+    const handleKeyDown = useCallback((event, type) => {
         const { key } = event
         const keys = ['Escape', 'Tab']
         const enterKey = 'Enter'
@@ -44,30 +30,47 @@ const Editable = ({
         ) {
             setEditing(false)
         }
-    }
+    }, [])
 
-    const handleValueChange = (event, value) => {
-        setValue(value)
-    }
+    useEffect(() => {
+        if (cleanEdited) {
+            setValue(text)
+        }
+    }, [text, cleanEdited])
 
+    const handleValueChange = useCallback(
+        (event, value) => {
+            setValue(value)
+            onChange(event, value)
+        },
+        [onChange]
+    )
+
+    const PlaceholdComponent = ({ pl = 4 }) => {
+        return (
+            <Text pl={pl} onClick={() => setEditing(true)}>
+                {value || placeholder || ''}
+            </Text>
+        )
+    }
     return (
-        <section css={[styles.container, ...cssToArray(overrideCss)]} {...props}>
+        <Box as="section" fontSize={fontSize}>
             {isEditing ? (
-                <div
+                <InputComponent
+                    ref={ref}
+                    fontSize={fontSize}
+                    pl={4}
+                    size="md"
+                    onChange={handleValueChange}
+                    placeholder={placeholder}
+                    value={value}
                     onBlur={() => setEditing(false)}
-                    onKeyDown={(e) => handleKeyDown(e, type)}>
-                    {children({ref: childRef, handleValueChange, value, placeholder})}
-                </div>
+                    onKeyDown={(e) => handleKeyDown(e, type)}
+                />
             ) : (
-                <div
-                    onClick={() => setEditing(true)}>
-                    <span
-                    >
-                        {value || placeholder /*|| 'Editable content'*/}
-                    </span>
-                </div>
+                <PlaceholdComponent pl={4} />
             )}
-        </section>
+        </Box>
     )
 }
 

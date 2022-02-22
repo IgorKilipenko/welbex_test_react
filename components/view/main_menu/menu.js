@@ -1,45 +1,12 @@
-import { motion, useAnimation } from 'framer-motion'
+import { useAnimation } from 'framer-motion'
 import { useMainMenuState } from '@Store'
-import { useBreakpointValue, useTheme, Box, Flex } from '@chakra-ui/react'
-import { memoStylesFactory, styleUtils } from '@Styles'
+import { Flex } from '@chakra-ui/react'
 import { useEffect, useCallback, useRef } from 'react'
 import NavContainer, { NavList } from './nav'
 import variantKeys from './variant_keys'
 import { MotionBox } from '../motion'
 
-const stylesFactory = memoStylesFactory((theme) => {
-    const { bgColorDark, zIndex, bp } = theme
-    return {
-        container: {
-            height: '100%',
-            backgroundColor: bgColorDark(),
-            position: 'absolute',
-            top: 0,
-            right: 0,
-            left: 0,
-            zIndex: zIndex.overlay,
-            //overflowY: 'scroll',
-            /*[bp.median]: {
-                overflow: 'hidden',
-            },*/
-        },
-        get __table() {
-            const padding = 13
-            return {
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                ...styleUtils.fullSize,
-                paddingLeft: `${padding / 2}rem`,
-                paddingRight: `${padding / 2}rem`,
-                /*[bp.median]: {
-                    paddingLeft: `${padding}rem`,
-                    paddingRight: `${padding}rem`,
-                },*/
-            }
-        },
-    }
-})
+
 
 const variants = {
     [variantKeys.show]: {
@@ -72,12 +39,6 @@ const variants = {
 
 const MenuOverlay = (/*props*/) => {
     const isOpened = useMainMenuState('isOpened')
-    const theme = useTheme()
-    const styles = stylesFactory(theme.oldTheme)
-    const bpCss = useBreakpointValue({
-        base: { overflow: 'auto' },
-        sm: { overflow: 'hidden' },
-    }, )
     const menuControls = useAnimation()
     const navListControls = useAnimation()
     const isInitial = useRef(false)
@@ -114,16 +75,23 @@ const MenuOverlay = (/*props*/) => {
     return (
         <MotionBox
             as="aside"
-            overflowY={bpCss?.overflow}
-            css={[styles.container]}
+            overflowY={['auto', 'hidden']}
+            position='absolute'
+            bg={'green.900'}
+            top={0}
+            left={0}
+            w='100%'
+            h='100%'
+            zIndex={'overlay'}
             variants={variants}
             animate={menuControls}>
             <Flex
                 direction="column"
                 justify="center"
-                pl="xl"
-                pr="xl"
-                //css={styles.table}
+                pl={[5, 10]}
+                pr={[5, 10]}
+                w='100%'
+                h='100%'
             >
                 <NavContainer>
                     <NavList
