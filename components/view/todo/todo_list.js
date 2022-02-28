@@ -113,7 +113,7 @@ const TodoList = () => {
     const styles = stylesFactory(theme.oldTheme)
     const [currentPage, setCurrentPage] = useState(1)
     const todos = useTodoState()
-    const pageSize = 5
+    const pageSize = 10
     const data = useRef([])
     const scrollRef = useRef(null)
     const pageCount = useRef(0)
