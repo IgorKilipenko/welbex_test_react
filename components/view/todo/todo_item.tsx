@@ -27,7 +27,7 @@ const TodoItem = ({
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: false, amount: 0.5 }}
-            //transition={{ duration: 0.5, ease: 'easeInOut' }}
+            transition={{ duration: 0.5, ease: 'easeInOut' }}
         >
             <Grid templateColumns={'4fr 1fr'} p={[1, 2]}>
                 <Grid
