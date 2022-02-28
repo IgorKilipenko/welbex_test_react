@@ -30,7 +30,7 @@ const App = ({ Component, pageProps }) => {
             </Head>
             <Provider store={store}>
                 <Global styles={styles} />
-                <Chakra>
+                <Chakra cookies={pageProps.cookies}>
                     <Layout>
                         <Component {...pageProps} />
                     </Layout>
