@@ -36,26 +36,26 @@ const Line = ({ spacing, ...props }: LineProps) => {
 
     const lineStyles = {
         vertical: {
-            width: width || '1px',
-            height: height || '100%',
+            width: width ?? '1px',
+            height: height ?? '100%',
         },
         horizontal: {
-            height: width || '1px',
-            width: height || '100%',
+            height: width ?? '1px',
+            width: height ?? '100%',
         },
     }
 
     const spacingStyles = {
         vertical: {
-            width: spacing || 0,
-            height: height || '100%',
+            width: spacing ?? lineStyles.vertical.width,
+            height: height ?? '100%',
             alignItems: 'center',
             justifyContent: 'center',
             flexDirection: 'column',
         },
         horizontal: {
-            height: spacing || 0,
-            width: height || '100%',
+            height: spacing ?? lineStyles.horizontal.height,
+            width: height ?? '100%',
             alignItems: 'center',
             justifyContent: 'center',
             flexDirection: 'column',
