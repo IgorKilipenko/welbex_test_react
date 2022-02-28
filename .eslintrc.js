@@ -1,13 +1,6 @@
 module.exports = {
     parser: '@typescript-eslint/parser',
-    plugins: [
-        '@emotion',
-        //'@typescript-eslint',
-        'jest',
-        'deprecation',
-        'react',
-        'react-hooks',
-    ],
+    plugins: ['@emotion', 'jest', 'deprecation', 'react', 'react-hooks'],
     extends: [
         'eslint:recommended',
         'plugin:jest/recommended',
@@ -22,26 +15,19 @@ module.exports = {
         '@emotion/pkg-renaming': 'error',
         'deprecation/deprecation': 'warn',
         'no-unused-vars': 'warn',
+        'no-console': 1,
     },
     overrides: [
-        /*{
-            files: ['*.js', '*.jsx'],
-            extends: ['eslint:recommended'],
-            rules: {
-                'no-unused-vars': 'warn',
-            },
-        },*/
         {
             files: ['*.ts', '*.tsx'],
             extends: [
                 'plugin:@typescript-eslint/recommended',
                 'plugin:@typescript-eslint/recommended-requiring-type-checking',
             ],
-            plugins: ['@typescript-eslint']
+            plugins: ['@typescript-eslint'],
         },
     ],
     parserOptions: {
-        //tsconfigRootDir: __dirname,
         project: ['./tsconfig.json'],
         ecmaFeatures: {
             jsx: true,
