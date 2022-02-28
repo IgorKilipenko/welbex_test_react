@@ -40,6 +40,7 @@ const theme = () => {
 
 //const customTheme = extendTheme({oldTheme: theme()}, withDefaultColorScheme({ colorScheme: 'green' /*gray*/ }))
 const customTheme = extendTheme(
+    withDefaultColorScheme({ colorScheme: 'green' /*gray*/ }),
     {
         oldTheme: theme(),
         config: {
@@ -47,8 +48,14 @@ const customTheme = extendTheme(
             initialColorMode: 'light',
             useSystemColorMode: false,
         },
-    },
-    withDefaultColorScheme({ colorScheme: 'green' /*gray*/ })
+        components: {
+            Line: {
+                baseStyle: {
+                    bg: 'blackAlpha.300',
+                },
+            },
+        },
+    }
 )
 export default theme
 export { customTheme }
