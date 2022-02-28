@@ -1,4 +1,4 @@
-import { useTheme } from '@chakra-ui/react'
+import { useTheme, Flex, Box } from '@chakra-ui/react'
 import { useTodoState } from '@Store'
 import { memoStylesFactory, styleUtils } from '@Styles'
 import { useRef, useState, useMemo, useCallback, useEffect } from 'react'
@@ -9,6 +9,7 @@ import TodoItem from './todo_item'
 import { nanoid } from '@reduxjs/toolkit'
 import { useDispatch } from 'react-redux'
 import { actions } from '@Store'
+import { HLine } from '@Components/chakra'
 
 const {
     todos: { todoAddOne },
@@ -44,16 +45,10 @@ const stylesFactory = memoStylesFactory((theme) => {
             justifyContent: 'flex-start',
             alignItems: 'center',
             width: '100%',
-            /**[bp.median]: {
-                fontSize: `${fontSize}rem`,
-            },*/
         },
         scrollContainer: {
             position: 'relative',
             marginTop: '1rem',
-            /**[bp.median]: {
-                marginTop: '3rem',
-            },*/
         },
         list: {
             overflow: 'hidden',
@@ -67,6 +62,7 @@ const stylesFactory = memoStylesFactory((theme) => {
             [bp.large]: {
                 margin: '0 20%',
             },
+            width: '100%',
             '&::before': {
                 ...horizontalLine,
             },
@@ -100,12 +96,6 @@ const stylesFactory = memoStylesFactory((theme) => {
                 color: textColorDark(0.5),
                 boxShadow: boxShadow(false),
                 transition: 'box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25,1)',
-                /**[bp.median]: {
-                    ...box(fontSize * 4),
-                },
-                '&:hover': {
-                    boxShadow: boxShadow(true),
-                },*/
             }
         },
 
@@ -114,10 +104,6 @@ const stylesFactory = memoStylesFactory((theme) => {
             textDecoration: 'uppercase',
             margin: '0.5rem auto 0 5%',
             fontSize: '3rem',
-            /**[bp.median]: {
-                margin: '1rem auto 0 20%',
-                fontSize: '7rem',
-            },*/
         },
     }
 })
@@ -150,7 +136,6 @@ const TodoList = () => {
     }, [currentPage, prepreData])
 
     const handlePageChange = (page) => {
-        console.log({ page })
         setCurrentPage((prevPage) => {
             if (prevPage !== page) {
                 if (scrollRef.current) {
@@ -192,7 +177,15 @@ const TodoList = () => {
     }
 
     return (
-        <div data-testid="todo-list-element" css={styles.container}>
+        <Flex 
+        data-testid="todo-list-element" 
+        position="relative"
+        direction="column" 
+        justify="center"
+        w='100%'
+        h='100%'
+        //__css={styles.container}
+        >
             <div css={styles.header}>TODOS:</div>
             <Scrollbars
                 ref={scrollRef}
@@ -201,23 +194,36 @@ const TodoList = () => {
                 autoHideTimeout={1000}
                 autoHideDuration={200}
                 css={styles.scrollContainer}>
-                <ul css={styles.list}>
+                <Flex
+                    //__css={styles.list}
+                    direction="column"
+                    align="stretch"
+                    w={{base:'100%', md:'container.md'}}
+                    m='auto'
+                    >
                     {currentTableData.map((item, i) => {
                         const { id: todoId, ...values } = item
                         const key = `${todoId}`
                         return (
-                            <li
+                            <Box
                                 key={key}
                                 todo-id={todoId}
-                                css={[styles.item, i % 2 !== 0 && styles.odd]}>
+                                position="relative"
+                                bg={i % 2 !== 0 ? 'green.50' : 'inherit'}
+                                // css={[
+                                    // styles.item,
+                                    // i % 2 !== 0 && styles.odd,
+                                // ]}
+                                >
                                 <TodoItem
                                     todoId={todoId}
                                     entries={Object.entries(values)}
                                 />
-                            </li>
+                                <HLine/>
+                            </Box>
                         )
                     })}
-                </ul>
+                </Flex>
             </Scrollbars>
             <Pagination
                 css={styles.paginationBar}
@@ -231,7 +237,7 @@ const TodoList = () => {
                 }
             />
             <AddButton onClick={() => handleAddTodo()} />
-        </div>
+        </Flex>
     )
 }
 

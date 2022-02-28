@@ -1,9 +1,10 @@
-import { configureStore } from '@reduxjs/toolkit'
+import { configureStore, Action, EntityState } from '@reduxjs/toolkit'
 import { slicies } from './reducers'
 import { createLogger } from 'redux-logger'
+import { useDispatch, TypedUseSelectorHook, useSelector } from 'react-redux'
 
 const logger = createLogger({
-    predicate: (getState, action) =>
+    predicate: (getState, action: Action) =>
         action.type !== 'components/setMainComponentMousePosition',
     collapsed: (getState, action, logEntry) => !logEntry.error,
 })
@@ -18,6 +19,7 @@ const actions = {
     todos: { ...todoSlice.actions },
 }
 
+
 const configureAppStore = ({ theme, components, todos }) => {
     const reducer = {
         theme: themeSlice.reducer,
@@ -27,8 +29,11 @@ const configureAppStore = ({ theme, components, todos }) => {
     const store = configureStore({
         reducer,
         preloadedState: {
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             theme: { ...themeSlice.getInitialState(), ...theme },
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             components: { ...componentsSlice.getInitialState(), ...components },
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             todos: { ...todoSlice.getInitialState(), ...todos },
         },
         middleware: (getDefaultMiddleware) => {
@@ -42,5 +47,12 @@ const configureAppStore = ({ theme, components, todos }) => {
     return store
 }
 
-export default configureAppStore
-export { actions }
+const store = configureAppStore({ theme: {}, components: {}, todos: {} })
+
+export type RootState = ReturnType<typeof store.getState>
+export type AppDispatch = typeof store.dispatch
+
+export default store
+export { configureAppStore, actions }
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
+export const useAppDispatch = () => useDispatch<AppDispatch>()

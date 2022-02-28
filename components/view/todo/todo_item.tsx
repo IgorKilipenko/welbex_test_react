@@ -1,37 +1,42 @@
-import { useDispatch } from 'react-redux'
-import { actions } from '@Store'
-import Editable from '@Components/view/editable'
+import { actions, useAppDispatch, TodoItem as TodoItemType } from '@Store'
 import { MotionBox } from '@Components/view/motion'
 import { useState } from 'react'
-import { Box, Button, Grid, Flex, Text, Input } from '@chakra-ui/react'
+import { Box, Grid, Flex } from '@chakra-ui/react'
 import TrashButton from './trash_button'
 import SaveButton from './save_button'
 import TodoData from './todo_data'
+import { useDispatch } from 'react-redux'
 
 const {
     todos: { todoRemove, todoUpdate },
 } = actions
 
-const TodoItem = ({ entries = [], todoId }) => {
+const TodoItem = ({
+    entries = [],
+    todoId,
+}: {
+    entries: TodoItemType[]
+    todoId: number
+}) => {
     const dispatch = useDispatch()
-    const [editedTodo, setEditedTodo] = useState(null)
-    const [cleanEdited, setCleanEdited] = useState(false)
 
+    const [editedTodo, setEditedTodo] = useState<TodoItemType | null>(null)
+    const [cleanEdited, setCleanEdited] = useState(false)
     return (
         <MotionBox
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: false, amount: 0.5 }}
-            transition={{ duration: 0.5, ease: 'easeInOut' }}>
+            //transition={{ duration: 0.5, ease: 'easeInOut' }}
+        >
             <Grid templateColumns={'4fr 1fr'} p={[1, 2]}>
                 <Grid
                     templateColumns={['2fr 2fr', '1fr 3fr']}
                     columnGap={[1, 5]}>
                     <TodoData
-                        todoId={todoId}
                         items={entries}
                         cleanEdited={cleanEdited}
-                        onChange={(e, name, value) => {
+                        onChange={(e, name: string, value: string) => {
                             setCleanEdited(false)
                             setEditedTodo((prevState) => {
                                 const key = name.replace(/[\s:]+/i, '')
@@ -52,7 +57,7 @@ const TodoItem = ({ entries = [], todoId }) => {
                     {editedTodo ? (
                         <SaveButton
                             onSave={() => {
-                                let { id = todoId, ...changes } = editedTodo
+                                const { id = todoId, ...changes } = editedTodo
                                 dispatch(
                                     todoUpdate({
                                         id,
@@ -80,12 +85,4 @@ const TodoItem = ({ entries = [], todoId }) => {
     )
 }
 
-const TodoItemWChakra = (props) => {
-    return (
-        <Box>
-            <TodoItem {...props} />
-        </Box>
-    )
-}
-
-export default TodoItemWChakra
+export default TodoItem

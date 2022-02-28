@@ -1,17 +1,10 @@
 import { Provider } from 'react-redux'
-import configureAppStore from '@Store'
+import store from '@Store'
 import { Layout } from '@Components/view'
 import Head from 'next/head'
 import { Chakra } from '@Components/chakra'
 import { AppProps } from 'next/app'
 
-const store = configureAppStore({
-    theme: { darkTheme: false },
-    components: {
-        componentsState: { test: 'test1' },
-    },
-    todos: {},
-})
 
 const App = ({ Component, pageProps }: AppProps) => {
     return (
