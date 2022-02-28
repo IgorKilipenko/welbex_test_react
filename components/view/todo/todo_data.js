@@ -1,7 +1,7 @@
 import Editable from '@Components/view/editable'
 import { Text } from '@chakra-ui/react'
 
-const TodoData = ({ todoId, items, cleanEdited, onChange = null }) => {
+const TodoData = ({ items, cleanEdited, onChange = null }) => {
     return items.reduce((res, [name, value], i) => {
         res.push(
             <Text
@@ -32,7 +32,7 @@ const TodoData = ({ todoId, items, cleanEdited, onChange = null }) => {
                 type="input"
                 cleanEdited={cleanEdited}
                 onChange={(e) =>
-                    onChange && onChange(e, name, value)
+                    onChange && onChange(e, name, e.target.value)
                 }></Editable>
         )
         return res
