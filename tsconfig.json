@@ -1,40 +1,40 @@
 {
   "extends": "./paths.json",
   "compilerOptions": {
-    "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": false,
-    "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
-    "incremental": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve",
-    "declaration": true,
-    "declarationMap": true,
-    //"declarationDir": "./types",
-    //"emitDeclarationOnly": true,
-    //"outDir": "dist",
+      "target": "es5",
+      "lib": ["dom", "dom.iterable", "esnext"],
+      "allowJs": true,
+      "skipLibCheck": true,
+      "strict": false,
+      "forceConsistentCasingInFileNames": true,
+      "noEmit": true,
+      "incremental": true,
+      "esModuleInterop": true,
+      "module": "esnext",
+      "moduleResolution": "node",
+      "resolveJsonModule": true,
+      "isolatedModules": true,
+      "jsx": "preserve",
+      "declaration": true,
+      "declarationMap": true
+      //"declarationDir": "./types",
+      //"emitDeclarationOnly": true,
+      //"outDir": "dist",
+  },
+  "ts-node": {
+      "compilerOptions": {
+          "module": "commonjs"
+      }
   },
   "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "**/*.js",
-    "**/*.jsx",
-    //"**/*.config.js",
-    ".eslintrc.js"
+      "next-env.d.ts",
+      "types/**/*.ts",
+      "**/*.ts",
+      "**/*.tsx",
+      "**/*.js",
+      "**/*.jsx",
+      //"**/*.config.js",
+      ".eslintrc.js"
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }
