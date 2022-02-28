@@ -1,12 +1,9 @@
-import { Global } from '@emotion/react'
-import { global_css as globalStylesFactory } from '@Styles'
 import { Provider } from 'react-redux'
 import configureAppStore from '@Store'
 import { Layout } from '@Components/view'
-import { customTheme } from '@Components/theme'
-import { useMemo } from 'react'
 import Head from 'next/head'
 import { Chakra } from '@Components/chakra'
+import { AppProps } from 'next/app'
 
 const store = configureAppStore({
     theme: { darkTheme: false },
@@ -16,10 +13,7 @@ const store = configureAppStore({
     todos: {},
 })
 
-const App = ({ Component, pageProps }) => {
-    const styles = useMemo(() => {
-        return globalStylesFactory(customTheme.oldTheme)
-    }, [])
+const App = ({ Component, pageProps }: AppProps) => {
     return (
         <>
             <Head>
@@ -29,7 +23,7 @@ const App = ({ Component, pageProps }) => {
                 />
             </Head>
             <Provider store={store}>
-                <Global styles={styles} />
+                {/* <Global styles={styles} /> */}
                 <Chakra cookies={pageProps.cookies}>
                     <Layout>
                         <Component {...pageProps} />
