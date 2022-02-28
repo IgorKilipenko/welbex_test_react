@@ -7,7 +7,7 @@ import { useCallback, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
 const stylesFactory = memoStylesFactory((theme) => {
-    const { bp, appBarHeight } = theme
+    const { appBarHeight } = theme
     return {
         container: {
             paddingTop: `${appBarHeight / 2 + 1}rem`,
@@ -16,9 +16,6 @@ const stylesFactory = memoStylesFactory((theme) => {
             flexDirection: 'row',
             justifyContent: 'center',
             ...styleUtils.fullSize,
-            /**[bp.median]: {
-                paddingTop: `${appBarHeight + 3}rem`,
-            },*/
         },
     }
 })

@@ -1,10 +1,17 @@
 import NavItem from './nav_item'
-import { VStack } from '@chakra-ui/react'
+import { VStack, StackProps } from '@chakra-ui/react'
+import { AnimationControls } from 'framer-motion'
 
-const NavList = ({ reverse = true, controls }) => {
+export interface NavListProps extends StackProps {
+    reverse: boolean
+    controls: AnimationControls
+    routes: string[]
+}
+
+const NavList = ({routes=['Home', 'Todo'], reverse = true, controls }: NavListProps) => {
     return (
         <VStack align={'left'} spacing={'2rem'}>
-            {['Home', 'Todo'].map((text, i, arr) => {
+            {routes.map((text, i, arr) => {
                 return (
                     <NavItem
                         key={i}

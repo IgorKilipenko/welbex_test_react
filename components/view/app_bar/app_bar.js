@@ -4,7 +4,7 @@ import LogoImage from './logo_image'
 import { useTheme, Box } from '@chakra-ui/react'
 
 const stylesFactory = memoStylesFactory((theme) => {
-    const { bgColor, textColor, zIndex, bp, appBarHeight } = theme
+    const { bgColor, textColor, appBarHeight } = theme
     const height = appBarHeight
 
     return {
@@ -19,11 +19,6 @@ const stylesFactory = memoStylesFactory((theme) => {
             minHeight: `${height / 2}rem`,
             height: `${height / 2}rem`,
             color: textColor(),
-            //zIndex: zIndex.overlay + 1,
-            /*[bp.median]: {
-                minHeight: `${height}rem`,
-                height: `${height}rem`,
-            },*/
         },
         get logo() {
             const width = height * 2
@@ -32,9 +27,6 @@ const stylesFactory = memoStylesFactory((theme) => {
                 minWidth: `${width / 2}rem`,
                 height: '100%',
                 backgroundColor: bgColor(),
-                /*[bp.median]: {
-                    minWidth: `${width}rem`,
-                },*/
                 '&::after': {
                     content: '""',
                     position: 'absolute',
@@ -50,9 +42,6 @@ const stylesFactory = memoStylesFactory((theme) => {
             position: 'relative',
             padding: `${height / 10}rem`,
             ...styleUtils.fullSize,
-            /*[bp.median]: {
-                padding: `${height/5}rem`,
-            },*/
         },
     }
 })

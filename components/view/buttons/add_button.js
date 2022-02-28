@@ -33,9 +33,6 @@ const stylesFactory = memoStylesFactory((theme) => {
                 backgroundColor: bgColorLight(1),
                 color: textColorDark(0.5),
                 bottom: `${fontSize}rem`,
-                /*[bp.median]: {
-                    ...box(fontSize * 4),
-                },*/
                 '&::after': {
                     content: '""',
                     ...line,

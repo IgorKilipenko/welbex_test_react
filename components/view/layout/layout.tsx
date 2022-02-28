@@ -1,5 +1,5 @@
 import { AppBar, MenuOverlay } from '@Components/view'
-import { Flex, useTheme } from '@chakra-ui/react'
+import { Flex } from '@chakra-ui/react'
 import MainComponent from './main_component'
 
 const Layout = ({ children }) => {
